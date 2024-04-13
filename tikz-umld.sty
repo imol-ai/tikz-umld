@@ -4506,9 +4506,9 @@
 	\begin{pgfonlayer}{connections}
 	\ifthenelse{\equal{\tikzumlCallStartNodeName}{\tikzumlCallEndNodeName}}{
 		\draw[\tikzumlcallstyle, \tikzumldrawcall] (st-\tikzumlCall@nodeName.east) -- ++(2.5*\tikzumlCallPadding ex,0)
-			-- ++(0,-0.75*\tikzumlCallPadding ex)
+			-- ++(0,-\tikzumlCallPadding ex)
 			node[font=\tikzumlDefaultFont, text=\tikzumltextcall, midway, right, name=\tikzumlCall@nodeName-op] {\tikzumlCallOp}
-			-- (et-\tikzumlCall@nodeName.east);
+			-- ++(-2.5*\tikzumlCallPadding ex,0);
 
 		% draw return arrow and update fit for parent fragment
 		\ifthenelse{\equal{\tikzumltypecall}{synchron}}{

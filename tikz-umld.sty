@@ -456,11 +456,15 @@
 
 	\ifthenelse{\equal{\tikzumlClassTypeTmp}{abstract}}{
 		\let\tikzumlClassNameOld\tikzumlClassName
-		\def\tikzumlClassName{{\it \tikzumlClassNameOld}}
+		\def\tikzumlClassName{{\emph \tikzumlClassNameOld}}
 	}{}
 	\ifthenelse{\equal{\tikzumlClassTypeTmp}{object}}{
 		\let\tikzumlClassNameOld\tikzumlClassName
 		\def\tikzumlClassName{{\underline \tikzumlClassNameOld}}
+	}{}
+	\ifthenelse{\equal{\tikzumlClassTypeTmp}{interface}}{
+		\let\tikzumlClassNameOld\tikzumlClassName
+		\def\tikzumlClassName{{\emph \tikzumlClassNameOld}}
 	}{}
 
 	\def\tikzumlClassPos{\tikzumlClassX,\tikzumlClassY}
@@ -2808,13 +2812,13 @@
 
 % define the actor symbol
 % optional : global tikzpicture styles
-\newcommand{\picturedactor}[1]{
-	\pgfkeys{/tikzuml/picactor/.cd, scale/.initial=1, .unknown/.code={}}
-	\pgfkeys{/tikzuml/picactor/.cd,#1}
-	\pgfkeys{/tikzuml/picactor/.cd, scale/.get=\tikzumlPicturedActorScale}
+\newcommand{\picturedactor}[1]{%
+	\pgfkeys{/tikzuml/picactor/.cd, scale/.initial=1, .unknown/.code={}}%
+	\pgfkeys{/tikzuml/picactor/.cd,#1}%
+	\pgfkeys{/tikzuml/picactor/.cd, scale/.get=\tikzumlPicturedActorScale}%
 
 	\begin{tikzpicture}[#1]
-	\coordinate (head) at (0,4ex);
+	\coordinate (head) at (0,5ex);
 	\coordinate (left-hand) at (-2ex,2ex);
 	\coordinate (right-hand) at (2ex,2ex);
 	\coordinate (left-foot) at (-2ex,-2ex);
@@ -2823,7 +2827,7 @@
 	\draw (empty) (0,0) -- (head);
 	\draw (left-hand) -- (right-hand);
 	\draw (0,0) -- (left-foot) (0,0) -- (right-foot);
-	\node[fill, draw, circle, inner sep=\tikzumlPicturedActorScale*0.3333ex, minimum size=\tikzumlPicturedActorScale*2ex, anchor=base] at (head) {};
+	\node[fill, draw, circle, inner sep=\tikzumlPicturedActorScale*0.3333ex, minimum size=\tikzumlPicturedActorScale*3ex, anchor=base] at (head) {};
 	\end{tikzpicture}
 }
 
@@ -2839,7 +2843,9 @@
 \newcommand{\umlactor}[2][]{
 	\stepcounter{tikzumlActorNum}
 	\pgfkeys{/tikzuml/actor/.cd, x/.initial=\tikzumlDefaultX, y/.initial=\tikzumlDefaultX, scale/.initial=1, below/.initial=\tikzumlActorDefaultBelow,
-		draw/.initial=\tikzumlDefaultDrawColor, text/.initial=\tikzumlDefaultTextColor,
+		draw/.initial=\tikzumlDefaultDrawColor,
+		head/.initial=yellow!30,
+		text/.initial=\tikzumlDefaultTextColor,
 		style/.style={},
 		no coords/.is if=tikzumlactorWithoutCoords,
 		no coords=false,
@@ -2870,8 +2876,7 @@
 	\pgfkeys{/tikzuml/actor/.cd, #1}
 	\pgfkeys{/tikzuml/actor/.cd,
 		x/.get=\tikzumlActorX, y/.get=\tikzumlActorY, scale/.get=\tikzumlActorScale,
-		below/.get=\tikzumlActorBelow,
-		draw/.get=\tikzumlActorDrawColor, text/.get=\tikzumlActorTextColor
+		below/.get=\tikzumlActorBelow, draw/.get=\tikzumlActorDrawColor, head/.get=\tikzumlActorHeadColor, text/.get=\tikzumlActorTextColor
 	}
 
 	\def\tikzumlActorName{#2}
@@ -2882,9 +2887,9 @@
 	\def\tikzumlActorPos{\tikzumlActorX,\tikzumlActorY}
 
 	\iftikzumlactorWithoutCoords
-		\node[tikzuml actor style, text=\tikzumlActorTextColor, font=\tikzumlDefaultFont, /tikzuml/actor/style] (\tikzumlActorNodeName) {\picturedactor{scale=\tikzumlActorScale, fill=white, draw=\tikzumlActorDrawColor, thick}};
+		\node[tikzuml actor style, text=\tikzumlActorTextColor, font=\tikzumlDefaultFont, /tikzuml/actor/style] (\tikzumlActorNodeName) {\picturedactor{scale=\tikzumlActorScale, fill=\tikzumlActorHeadColor, draw=\tikzumlActorDrawColor, thick}};
 	\else
-		\node[tikzuml actor style, text=\tikzumlActorTextColor, font=\tikzumlDefaultFont, /tikzuml/actor/style] (\tikzumlActorNodeName) at (\tikzumlActorPos) {\picturedactor{scale=\tikzumlActorScale, fill=white, draw=\tikzumlActorDrawColor, thick}};
+		\node[tikzuml actor style, text=\tikzumlActorTextColor, font=\tikzumlDefaultFont, /tikzuml/actor/style] (\tikzumlActorNodeName) at (\tikzumlActorPos) {\picturedactor{scale=\tikzumlActorScale, fill=\tikzumlActorHeadColor, draw=\tikzumlActorDrawColor, thick}};
 	\fi
 	\node[text=\tikzumlActorTextColor, font=\tikzumlDefaultFont, below=\tikzumlActorScale*\tikzumlActorBelow] at (\tikzumlActorNodeName) {\tikzumlActorName};
 
@@ -3963,7 +3968,7 @@
 	\begin{pgfonlayer}{lifelines}
 	\foreach \id in \tikzumlIdList {
 		\draw (\csname tikzumlLastChild@\id \endcsname)+(0,-2.5ex) node[inner sep=0, name=end-\id] {};
-		\draw[dotted] (\id) -- (end-\id);
+		\draw[dashed] (\id) -- (end-\id);
 	}
 	\end{pgfonlayer}
 	\end{scope}
@@ -4102,6 +4107,7 @@
 	\stepcounter{tikzumlObjectNum}
 
 	\edef\tikzumlobject@ddot{:}
+	\edef\tikzumlobject@kern{\,}
 	\pgfkeys{/tikzuml/obj/.cd, x/.initial=tikzumlEmpty, y/.initial=\tikzumlDefaultX, stereo/.initial=\tikzumlObjectDefaultStereo,
 		class/.initial={}, scale/.initial=1,
 		draw/.initial=\tikzumlDefaultDrawColor, fill/.initial=\tikzumlObjectDefaultFillColor,
@@ -4124,6 +4130,7 @@
 
 	\iftikzumlobjectNoDDots
 		\edef\tikzumlobject@ddot{}
+		\edef\tikzumlobject@kern{}
 	\fi
 
 	\ifthenelse{\equal{\tikzumlObjectX}{tikzumlEmpty}}{
@@ -4156,9 +4163,9 @@
 		\def\tikzumlObjectNC{\tikzumlObjectName}
 	}
 	\ifnum\tikzumlInCreateCall=1
-		\draw (\tikzumlCreateCallObjectSrc -| \tikzumlObjectX,0) node[tikzuml object box style] (\tikzumlObjectNC) {\underline{\textbf{\tikzumlObjectName\,\tikzumlobject@ddot\,\tikzumlObjectClass}}};
+		\draw (\tikzumlCreateCallObjectSrc -| \tikzumlObjectX,0) node[tikzuml object box style] (\tikzumlObjectNC) {\underline{\textbf{\tikzumlObjectName\tikzumlobject@kern\tikzumlobject@ddot\tikzumlobject@kern\tikzumlObjectClass}}};
 	\else
-		\node[tikzuml object box style] (\tikzumlObjectNC) at (\tikzumlObjectX,\tikzumlObjectY) {\underline{\textbf{\tikzumlObjectName\,\tikzumlobject@ddot\,\tikzumlObjectClass}}};
+		\node[tikzuml object box style] (\tikzumlObjectNC) at (\tikzumlObjectX,\tikzumlObjectY) {\underline{\textbf{\tikzumlObjectName\tikzumlobject@kern\tikzumlobject@ddot\tikzumlobject@kern\tikzumlObjectClass}}};
 	\fi
 
 	\ifthenelse{\equal{\tikzumlObjectStereo}{multi}}{

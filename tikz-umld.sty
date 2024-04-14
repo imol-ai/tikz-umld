@@ -2812,7 +2812,7 @@
 
 % define the actor symbol
 % optional : global tikzpicture styles
-\newcommand{\picturedactor}[1]{%
+\newcommand{\picturedactor}[1]{
 	\pgfkeys{/tikzuml/picactor/.cd, scale/.initial=1, .unknown/.code={}}%
 	\pgfkeys{/tikzuml/picactor/.cd,#1}%
 	\pgfkeys{/tikzuml/picactor/.cd, scale/.get=\tikzumlPicturedActorScale}%
@@ -4032,9 +4032,9 @@
 % define the database symbol
 % optional : global tikzpicture styles
 \newcommand{\pictureddatabase}[1]{
-	\pgfkeys{/tikzuml/database/.cd, scale/.initial=1, .unknown/.code={}}
-	\pgfkeys{/tikzuml/database/.cd,#1}
-	\pgfkeys{/tikzuml/database/.cd, scale/.get=\tikzumlDatabaseScale}
+	\pgfkeys{/tikzuml/database/.cd, scale/.initial=1, .unknown/.code={}}%
+	\pgfkeys{/tikzuml/database/.cd,#1}%
+	\pgfkeys{/tikzuml/database/.cd, scale/.get=\tikzumlDatabaseScale}%
 
 	\begin{tikzpicture}[#1]
 	\node[fill, draw, ellipse, minimum width=\tikzumlDatabaseScale*4ex, minimum height=\tikzumlDatabaseScale*2ex, inner sep=0] (bottom) at (0,-2ex) {};
@@ -4052,9 +4052,9 @@
 % define the entity symbol
 % optional : global tikzpicture styles
 \newcommand{\picturedentity}[1]{
-	\pgfkeys{/tikzuml/entity/.cd, scale/.initial=1, .unknown/.code={}}
-	\pgfkeys{/tikzuml/entity/.cd,#1}
-	\pgfkeys{/tikzuml/entity/.cd, scale/.get=\tikzumlEntityScale}
+	\pgfkeys{/tikzuml/entity/.cd, scale/.initial=1, .unknown/.code={}}%
+	\pgfkeys{/tikzuml/entity/.cd,#1}%
+	\pgfkeys{/tikzuml/entity/.cd, scale/.get=\tikzumlEntityScale}%
 
 	\begin{tikzpicture}[#1]
 	\node[fill, draw, circle, inner sep=0, minimum size=\tikzumlEntityScale*5ex] (center) at (0,0) {};
@@ -4069,9 +4069,9 @@
 % define the boundary symbol
 % optional : global tikzpicture styles
 \newcommand{\picturedboundary}[1]{
-	\pgfkeys{/tikzuml/boundary/.cd, scale/.initial=1, .unknown/.code={}}
-	\pgfkeys{/tikzuml/boundary/.cd,#1}
-	\pgfkeys{/tikzuml/boundary/.cd, scale/.get=\tikzumlBoundaryScale}
+	\pgfkeys{/tikzuml/boundary/.cd, scale/.initial=1, .unknown/.code={}}%
+	\pgfkeys{/tikzuml/boundary/.cd,#1}%
+	\pgfkeys{/tikzuml/boundary/.cd, scale/.get=\tikzumlBoundaryScale}%
 
 	\begin{tikzpicture}[#1]
 	\node[fill, draw, circle, inner sep=0, minimum size=\tikzumlBoundaryScale*5ex] (center) at (0,0) {};
@@ -4086,9 +4086,9 @@
 % define the control symbol
 % optional : global tikzpicture styles
 \newcommand{\picturedcontrol}[1]{
-	\pgfkeys{/tikzuml/control/.cd, scale/.initial=1, .unknown/.code={}}
-	\pgfkeys{/tikzuml/control/.cd,#1}
-	\pgfkeys{/tikzuml/control/.cd, scale/.get=\tikzumlControlScale}
+	\pgfkeys{/tikzuml/control/.cd, scale/.initial=1, .unknown/.code={}}%
+	\pgfkeys{/tikzuml/control/.cd,#1}%
+	\pgfkeys{/tikzuml/control/.cd, scale/.get=\tikzumlControlScale}%
 
 	\begin{tikzpicture}[#1, decoration={markings, mark=at position 0.25 with {\arrow{>}}}]
 	\node[fill, draw, circle, inner sep=0, minimum size=\tikzumlControlScale*5ex, postaction={decorate}] (center) at (0,0) {};
@@ -4827,9 +4827,10 @@
 \newif\iftikzumlcomponentWithoutCoords
 
 \newcommand{\picturedcomponent}[1]{
-	\pgfkeys{/tikzuml/component/picture/.cd, scale/.initial=1, .unknown/.code={}}
-	\pgfkeys{/tikzuml/component/picture/.cd,#1}
-	\pgfkeys{/tikzuml/component/picture/.cd, scale/.get=\tikzumlComponentScale}
+	\pgfkeys{/tikzuml/component/picture/.cd, scale/.initial=1, .unknown/.code={}}%
+	\pgfkeys{/tikzuml/component/picture/.cd,#1}%
+	\pgfkeys{/tikzuml/component/picture/.cd, scale/.get=\tikzumlComponentScale}%
+
 	\begin{tikzpicture}[#1]
 	\filldraw (0,0) rectangle (1ex,1.5ex);
 	\filldraw (-0.2ex,0.4ex) rectangle (0.2ex,0.6ex);

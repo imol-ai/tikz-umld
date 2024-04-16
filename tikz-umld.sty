@@ -2338,6 +2338,7 @@
 		text/.initial=\tikzumlDefaultTextColor,
 		no coords/.is if=tikzumlnoteWithoutCoords,
 		no coords=false,
+		px/.initial=0, py/.initial=0,
 		.unknown/.code={
 			\let\keyname=\pgfkeyscurrentname
 			\let\keyvalue=\pgfkeyscurrentvalue
@@ -2368,7 +2369,8 @@
 		weight/.get=\tikzumlNoteWeight, arm/.get=\tikzumlNoteArm,
 		anchor1/.get=\tikzumlNoteSrcAnchor, anchor2/.get=\tikzumlNoteDestAnchor,
 		draw/.get=\tikzumlNoteDrawColor, fill/.get=\tikzumlNoteFillColor,
-		text/.get=\tikzumlNoteTextColor
+		text/.get=\tikzumlNoteTextColor,
+		px/.get=\tikzumlNotePointerX, py/.get=\tikzumlNotePointerY,
 	}
 
 	\def\tikzumlClassName{#2}
@@ -2433,9 +2435,17 @@
 		}
 	}
 
-	\begin{pgfonlayer}{connections}
-	\draw[dashed] (note-\thetikzumlNoteNum-coord\tikzumlNoteSrcAnchor) \tikzumlnotepath (\tikzumlClassNodeName\tikzumlNoteDestAnchor);
-	\end{pgfonlayer}
+	\ifthenelse{\equal{\tikzumlNotePointerX}{0}\AND\equal{\tikzumlNotePointerY}{0}}{
+		\begin{pgfonlayer}{connections}
+			\draw[dashed] (note-\thetikzumlNoteNum-coord\tikzumlNoteSrcAnchor) \tikzumlnotepath (\tikzumlClassNodeName\tikzumlNoteDestAnchor);
+		\end{pgfonlayer}
+	}{
+		\begin{pgfonlayer}{main}
+			\draw ([shift={(\tikzumlNotePointerX,\tikzumlNotePointerY)}]\tikzumlClassNodeName) node[circle,inner sep=3pt,fill=\tikzumlNoteDefaultFillColor,draw] (note-\thetikzumlNoteNum-pointer) {};
+			\draw[dashed] (note-\thetikzumlNoteNum-coord\tikzumlNoteSrcAnchor) \tikzumlnotepath (note-\thetikzumlNoteNum-pointer);
+		\end{pgfonlayer}
+	}
+
 
 	\stepcounter{tikzumlNoteNum}
 }

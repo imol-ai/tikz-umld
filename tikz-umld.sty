@@ -197,6 +197,7 @@
 \tikzstyle{tikzuml simpleclass style}=[rectangle, minimum height=2em, node distance=2em]
 \tikzstyle{tikzuml simpleinterface style}=[circle, minimum height=1em, node distance=1em]
 \tikzstyle{tikzuml class style}=[rectangle split, rectangle split parts=3, rectangle split part align={center, left, left}, minimum height=2em, node distance=2em]
+\tikzstyle{tikzuml enumeration style}=[rectangle split, rectangle split parts=2, rectangle split part align={center, left}, minimum height=2em, node distance=2em]
 \tikzstyle{tikzuml narynode style}=[diamond]
 \tikzstyle{tikzuml template style}=[dashed, inner ysep=0.5em, inner xsep=1ex]
 \tikzstyle{tikzuml control nodes style}=[fill=black, inner sep=1.5pt, circle]
@@ -492,30 +493,40 @@
 			\fi
 		\fi
 	\else
+		\ifthenelse{\equal{\tikzumlClassTypeTmp}{enumeration}}{
+			\def\tikzumlClassStyleTmp{tikzuml enumeration style}
+		}{
+			\def\tikzumlClassStyleTmp{tikzuml class style}
+		}
 		\iftikzumlclassWithoutCoords
-			\node[tikzuml class style, draw=\tikzumlClassDrawColor, fill=\tikzumlClassFillColor, text=\tikzumlClassTextColor, font=\tikzumlDefaultFont, minimum width=\tikzumlClassMinimumWidth, /tikzuml/class/style] (\tikzumlClassNodeName) {\begin{tabular}{c}\tikzumlClassVPadding \tikzumlClassType \tikzumlClassHPadding \textbf{\tikzumlClassName} \tikzumlClassHPadding \tikzumlClassTags \end{tabular}
-			\nodepart{second}
-			\begin{tabular}{l}
-			\tikzumlClassAttributes
-			\end{tabular}
-			\nodepart{third}
-			\begin{tabular}{l}
-			\tikzumlClassOperations
-			\end{tabular}
+			\node[\tikzumlClassStyleTmp, draw=\tikzumlClassDrawColor, fill=\tikzumlClassFillColor, text=\tikzumlClassTextColor, font=\tikzumlDefaultFont, minimum width=\tikzumlClassMinimumWidth, /tikzuml/class/style] (\tikzumlClassNodeName) {\begin{tabular}{c}\tikzumlClassVPadding \tikzumlClassType \tikzumlClassHPadding \textbf{\tikzumlClassName} \tikzumlClassHPadding \tikzumlClassTags \end{tabular}
+				\nodepart{second}
+				\begin{tabular}{l}
+				\tikzumlClassAttributes
+				\end{tabular}
+				\ifthenelse{\equal{\tikzumlClassTypeTmp}{enumeration}}{}{
+					\nodepart{third}
+					\begin{tabular}{l}
+					\tikzumlClassOperations
+					\end{tabular}
+				}
 			};
 		\else
-			\node[tikzuml class style, draw=\tikzumlClassDrawColor, fill=\tikzumlClassFillColor, text=\tikzumlClassTextColor, font=\tikzumlDefaultFont, minimum width=\tikzumlClassMinimumWidth, /tikzuml/class/style] (\tikzumlClassNodeName) at (\tikzumlClassPos) {\begin{tabular}{c}\tikzumlClassVPadding \tikzumlClassType \tikzumlClassHPadding \textbf{\tikzumlClassName} \tikzumlClassHPadding \tikzumlClassTags \end{tabular}
-			\nodepart{second}
-			\begin{tabular}{l}
-			\tikzumlClassAttributes
-			\end{tabular}
-			\nodepart{third}
-			\begin{tabular}{l}
-			\tikzumlClassOperations
-			\end{tabular}
+			\node[\tikzumlClassStyleTmp, draw=\tikzumlClassDrawColor, fill=\tikzumlClassFillColor, text=\tikzumlClassTextColor, font=\tikzumlDefaultFont, minimum width=\tikzumlClassMinimumWidth, /tikzuml/class/style] (\tikzumlClassNodeName) at (\tikzumlClassPos) {\begin{tabular}{c}\tikzumlClassVPadding \tikzumlClassType \tikzumlClassHPadding \textbf{\tikzumlClassName} \tikzumlClassHPadding \tikzumlClassTags \end{tabular}
+				\nodepart{second}
+				\begin{tabular}{l}
+				\tikzumlClassAttributes
+				\end{tabular}
+				\ifthenelse{\equal{\tikzumlClassTypeTmp}{enumeration}}{}{
+					\nodepart{third}
+					\begin{tabular}{l}
+					\tikzumlClassOperations
+					\end{tabular}
+				}
 			};
 		\fi
 	\fi
+
 
 	\ifthenelse{\equal{\tikzumlClassTemplateFillColorParam}{}}{}{
 		\draw (\tikzumlClassNodeName.north east) node[tikzuml template style, name=\tikzumlClassNodeName-template, draw=\tikzumlClassDrawColor, fill=\tikzumlClassTemplateFillColor, text=\tikzumlClassTextColor, font=\tikzumlDefaultFont] {\tikzumlClassTemplateFillColorParam};
@@ -591,7 +602,7 @@
 	\pgfkeys{/tikzuml/class/.cd, #1}
 	\umlclass[type=typedef,#1]{#2}{#3}{#4}
 }
-\newcommand{\umlenum}[4][]{
+\newcommand{\umlenum}[3][]{
 	\pgfkeys{/tikzuml/class/.cd, .unknown/.code={
 			\let\keyname=\pgfkeyscurrentname
 			\let\keyvalue=\pgfkeyscurrentvalue
@@ -601,7 +612,7 @@
 		}
 	}
 	\pgfkeys{/tikzuml/class/.cd, #1}
-	\umlclass[type=enum,#1]{#2}{#3}{#4}
+	\umlclass[type=enumeration,#1]{#2}{#3}{}
 }
 
 % shortcut to define an empty class

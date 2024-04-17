@@ -11,7 +11,7 @@
 \ProvidesPackage{tikz-umld}[2024/04/10]
 
 \RequirePackage{ifthen,tikz,xstring,calc,pgfopts,etoolbox}
-\usetikzlibrary{backgrounds,arrows,shapes,fit,shadows,decorations.markings}
+\usetikzlibrary{backgrounds,arrows,arrows.meta,shapes,fit,shadows,decorations.markings}
 
 \def\tikzumlPackageLayersNum{3}
 \pgfkeys{/tikzuml/options/.cd, packageLayers/.initial=3}
@@ -198,22 +198,22 @@
 \tikzstyle{tikzuml simpleinterface style}=[circle, minimum height=1em, node distance=1em]
 \tikzstyle{tikzuml class style}=[rectangle split, rectangle split parts=3, rectangle split part align={center, left, left}, minimum height=2em, node distance=2em]
 \tikzstyle{tikzuml enumeration style}=[rectangle split, rectangle split parts=2, rectangle split part align={center, left}, minimum height=2em, node distance=2em]
-\tikzstyle{tikzuml narynode style}=[diamond]
+\tikzstyle{tikzuml narynode style}=[{Diamond[scale=3]}]
 \tikzstyle{tikzuml template style}=[dashed, inner ysep=0.5em, inner xsep=1ex]
 \tikzstyle{tikzuml control nodes style}=[fill=black, inner sep=1.5pt, circle]
 
 \tikzstyle{tikzuml association style}=[color=\tikzumlDefaultDrawColor, -]
-\tikzstyle{tikzuml bidirectional association style}=[color=\tikzumlDefaultDrawColor, angle45-angle45]
-\tikzstyle{tikzuml unidirectional association style}=[color=\tikzumlDefaultDrawColor, -angle 45]
-\tikzstyle{tikzuml aggregation style}=[color=\tikzumlDefaultDrawColor, open diamond-]
-\tikzstyle{tikzuml unidirectional aggregation style}=[color=\tikzumlDefaultDrawColor, open diamond-angle 45]
-\tikzstyle{tikzuml composition style}=[color=\tikzumlDefaultDrawColor, diamond-]
-\tikzstyle{tikzuml unidirectional composition style}=[color=\tikzumlDefaultDrawColor, diamond-angle 45]
+\tikzstyle{tikzuml bidirectional association style}=[color=\tikzumlDefaultDrawColor, {Straight Barb[scale=3.5,angle'=55]}-{Straight Barb[scale=3.5,angle'=55]}]
+\tikzstyle{tikzuml unidirectional association style}=[color=\tikzumlDefaultDrawColor, -{Straight Barb[scale=3.5,angle'=55]}]
+\tikzstyle{tikzuml aggregation style}=[color=\tikzumlDefaultDrawColor, {Diamond[scale=3, open]}-]
+\tikzstyle{tikzuml unidirectional aggregation style}=[color=\tikzumlDefaultDrawColor, {Diamond[scale=3, open]}-{Straight Barb[scale=3.5,angle'=55]}]
+\tikzstyle{tikzuml composition style}=[color=\tikzumlDefaultDrawColor, {Diamond[scale=3]}-]
+\tikzstyle{tikzuml unidirectional composition style}=[color=\tikzumlDefaultDrawColor, {Diamond[scale=3]}-{Straight Barb[scale=3.5,angle'=55]}]
 \tikzstyle{tikzuml nesting style}=[color=\tikzumlDefaultDrawColor]
-\tikzstyle{tikzuml dependency style}=[color=\tikzumlDefaultDrawColor, -angle 45, dashed]
-\tikzstyle{tikzuml import style}=[color=\tikzumlDefaultDrawColor, -angle 45, dashed]
-\tikzstyle{tikzuml inherit style}=[color=\tikzumlDefaultDrawColor, -open triangle 45]
-\tikzstyle{tikzuml implements style}=[color=\tikzumlDefaultDrawColor, -open triangle 45, dashed]
+\tikzstyle{tikzuml dependency style}=[color=\tikzumlDefaultDrawColor, -{Straight Barb[scale=3.5,angle'=55]}, dashed]
+\tikzstyle{tikzuml import style}=[color=\tikzumlDefaultDrawColor, -{Straight Barb[scale=3.5,angle'=55]}, dashed]
+\tikzstyle{tikzuml inherit style}=[color=\tikzumlDefaultDrawColor, -{Triangle[scale=2.5,open,angle'=50]}]
+\tikzstyle{tikzuml implements style}=[color=\tikzumlDefaultDrawColor, -{Triangle[scale=2.5,open,angle'=50]}, dashed]
 
 \pgfkeys{/tikzuml/assemblyconnectorrelation/.cd, anchors/.style args={#1 and #2}{anchor1=#1, anchor2=#2}}
 
@@ -3116,7 +3116,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \tikzstyle{tikzuml state style}=[rectangle split, rectangle split parts=2, rounded corners, inner xsep=1.5ex]
-\tikzstyle{tikzuml transition style}=[color=\tikzumlDefaultDrawColor, rounded corners, -angle 45]
+\tikzstyle{tikzuml transition style}=[color=\tikzumlDefaultDrawColor, rounded corners, -{Straight Barb[scale=3.5,angle'=55]}]
 
 \newcounter{tikzumlStateJoinNum}
 \newcounter{tikzumlStateDecisionNum}
@@ -3925,10 +3925,10 @@
 %                     sequence and object diagrams                   %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\tikzstyle{tikzuml synchron-msg style}=[color=\tikzumlDefaultDrawColor, -triangle 45]
-\tikzstyle{tikzuml asynchron-msg style}=[color=\tikzumlDefaultDrawColor, -angle 45]
-\tikzstyle{tikzuml return-msg style}=[color=\tikzumlDefaultDrawColor, dashed, -angle 45]
-\tikzstyle{tikzuml call return style}=[color=\tikzumlDefaultDrawColor, dashed, -angle 45]
+\tikzstyle{tikzuml synchron-msg style}=[color=\tikzumlDefaultDrawColor, -{Triangle[scale=2.5,angle'=50]}]
+\tikzstyle{tikzuml asynchron-msg style}=[color=\tikzumlDefaultDrawColor, -{Straight Barb[scale=3.5,angle'=55]}]
+\tikzstyle{tikzuml return-msg style}=[color=\tikzumlDefaultDrawColor, dashed, -{Straight Barb[scale=3.5,angle'=55]}]
+\tikzstyle{tikzuml call return style}=[color=\tikzumlDefaultDrawColor, dashed, -{Straight Barb[scale=3.5,angle'=55]}]
 \tikzstyle{tikzuml activity style}=[inner xsep=1ex, inner ysep=1ex]
 
 \newcounter{tikzumlObjectNum}

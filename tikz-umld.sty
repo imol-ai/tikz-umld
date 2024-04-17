@@ -663,9 +663,13 @@
 	\pgfkeys{/tikzuml/class/.cd, #1}
 	\umlsimpleclass[type=object, #1]{#2}
 }
-% underline the text for static arg
-\newcommand{\umlstatic}[1]{\underline{#1}}
-\newcommand{\umlvirt}[1]{\textit{#1}}
+
+% define commands for uml constraints
+\newcommand{\umlcon}[2]{#1 \hfill \{#2\}}
+\newcommand{\umlstatic}[1]{\underline{\umlcon{#1}{static}}}
+\newcommand{\umlvirt}[1]{\textit{\umlcon{#1}{virtual}}}
+\newcommand{\umloverrd}[1]{\umlcon{#1}{override}}
+\newcommand{\umlquery}[1]{\umlcon{#1}{query}}
 
 % define node for n-ary association
 \newcommand{\umlNarynode}[2][]{

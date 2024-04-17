@@ -422,7 +422,7 @@
 		text/.get=\tikzumlClassTextColor, fill template/.get=\tikzumlClassTemplateFillColor
 	}
 
-	\ifthenelse{\equal{\tikzumlClassTypeTmp}{class}\OR\equal{\tikzumlClassTypeTmp}{abstract}\OR\equal{\tikzumlClassTypeTmp}{object}}{
+	\ifthenelse{\equal{\tikzumlClassTypeTmp}{class}\OR\equal{\tikzumlClassTypeTmp}{object}}{
 		\def\tikzumlClassType{}
 	}{
 		\expandafter\def\expandafter\tikzumlClassType\expandafter{$\ll$\tikzumlClassTypeTmp$\gg$ \\}

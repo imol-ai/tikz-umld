@@ -72,7 +72,7 @@
 	relation geometry/.initial=--, relation angle1/.initial=-30, relation angle2/.initial=30, relation loopsize/.initial=3em, relation weight/.initial=0.5, relation pos1/.initial=0.2, relation pos2/.initial=0.8, relation pos stereo/.initial=0.5,
 	note width/.initial=3cm, fill note/.initial=yellow!30,
 	fill system/.initial=white,
-	fill usecase/.initial=yellow!30,
+	fill usecase/.initial=orange!30,
 	actor below/.initial=0.5cm,
 	state join width/.initial=3ex,
 	state decision width/.initial=3ex,
@@ -83,8 +83,8 @@
 	state end width/.initial=5ex,
 	state history width/.initial=5ex,
 	state deep history width/.initial=5ex,
-	state width/.initial=8ex, fill state/.initial=yellow!30,
-	object stereo/.initial=object, fill object/.initial=yellow!60,
+	state width/.initial=8ex, fill state/.initial=orange!30,
+	object stereo/.initial=object, fill object/.initial=orange!30,
 	call dt/.initial=tikzumlEmpty, call padding/.initial=2, call type/.initial=synchron, fill call/.initial=yellow!30,
 	fragment type/.initial=opt, fragment inner xsep/.initial=1, fragment inner ysep/.initial=1, fill fragment/.initial= none,
 	create call dt/.initial=4,
@@ -664,9 +664,11 @@
 	\umlsimpleclass[type=object, #1]{#2}
 }
 
+\newcommand\hunderfill{\leavevmode\leaders\vtop{\vskip1.175mm\hrule width .05pt}\hfill\kern0pt }
+
 % define commands for uml constraints
 \newcommand{\umlcon}[2]{#1 \hfill \{#2\}}
-\newcommand{\umlstatic}[1]{\underline{\umlcon{#1}{static}}}
+\newcommand{\umlstatic}[1]{\underline{#1}\hunderfill\underline{\{static\}}}
 \newcommand{\umlvirt}[1]{\textit{\umlcon{#1}{virtual}}}
 \newcommand{\umloverrd}[1]{\umlcon{#1}{override}}
 \newcommand{\umlquery}[1]{\umlcon{#1}{query}}
@@ -2441,12 +2443,12 @@
 
 	\ifthenelse{\equal{\tikzumlNotePointerX}{0}\AND\equal{\tikzumlNotePointerY}{0}}{
 		\begin{pgfonlayer}{connections}
-			\draw[dashed] (note-\thetikzumlNoteNum-coord\tikzumlNoteSrcAnchor) \tikzumlnotepath (\tikzumlClassNodeName\tikzumlNoteDestAnchor);
+			\draw[densely dashed] (note-\thetikzumlNoteNum-coord\tikzumlNoteSrcAnchor) \tikzumlnotepath (\tikzumlClassNodeName\tikzumlNoteDestAnchor);
 		\end{pgfonlayer}
 	}{
 		\begin{pgfonlayer}{main}
 			\draw ([shift={(\tikzumlNotePointerX,\tikzumlNotePointerY)}]\tikzumlClassNodeName) node[circle,inner sep=3pt,fill=\tikzumlNoteDefaultFillColor,draw] (note-\thetikzumlNoteNum-pointer) {};
-			\draw[dashed] (note-\thetikzumlNoteNum-coord\tikzumlNoteSrcAnchor) \tikzumlnotepath (note-\thetikzumlNoteNum-pointer);
+			\draw[densely dashed] (note-\thetikzumlNoteNum-coord\tikzumlNoteSrcAnchor) \tikzumlnotepath (note-\thetikzumlNoteNum-pointer);
 		\end{pgfonlayer}
 	}
 

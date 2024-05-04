@@ -669,7 +669,8 @@
 % define commands for uml constraints
 \newcommand{\umlcon}[2]{#1 \hfill \{#2\}}
 \newcommand{\umlstatic}[1]{\underline{#1}\hunderfill\underline{\{static\}}}
-\newcommand{\umlvirt}[1]{\textit{\umlcon{#1}{virtual}}}
+\newcommand{\umlpvirt}[1]{\textit{\umlcon{#1}{pure virtual}}}
+\newcommand{\umlvirt}[1]{\umlcon{#1}{virtual}}
 \newcommand{\umloverrd}[1]{\umlcon{#1}{override}}
 \newcommand{\umlquery}[1]{\umlcon{#1}{query}}
 

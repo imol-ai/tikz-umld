@@ -791,8 +791,8 @@
 		align1/.initial={}, align2/.initial={}, align/.initial={},
 		anchor1/.initial=tikzumlEmpty, anchor2/.initial=tikzumlEmpty,
 		angle1/.initial=\tikzumlRelationDefaultAngleO, angle2/.initial=\tikzumlRelationDefaultAngleT, loopsize/.initial=\tikzumlRelationDefaultLoopSize,
-		stereo/.initial={}, pos stereo/.initial=\tikzumlRelationDefaultPosStereo,
-		anc stereo/.initial=center,
+		stereo/.initial={}, st:pos/.initial=\tikzumlRelationDefaultPosStereo,
+		st:anchor/.initial=center, st:fill/.initial=none,
 		style/.initial=->, style2/.style={}, name/.initial=relation-\thetikzumlRelationNum,
 		recursive mode/.initial=default, recursive direction start/.initial=right,
 		recursive direction end/.initial=bottom,
@@ -826,8 +826,9 @@
 		align1/.get=\tikzumlRelationAlign, align2/.get=\tikzumlRelationAlignTO, align/.get=\tikzumlRelationAlignTT,
 		anchor1/.get=\tikzumlRelationSrcAnchor, anchor2/.get=\tikzumlRelationDestAnchor,
 		angle1/.get=\tikzumlRelationStartAngle, angle2/.get=\tikzumlRelationEndAngle, loopsize/.get=\tikzumlRelationLoopSize,
-		stereo/.get=\tikzumlRelationStereoType, pos stereo/.get=\tikzumlRelationPositionStereotype,
-		anc stereo/.get=\tikzumlRelationStereotypeAnchor,
+		stereo/.get=\tikzumlRelationStereoType, st:pos/.get=\tikzumlRelationPositionStereotype,
+		st:anchor/.get=\tikzumlRelationStereotypeAnchor,
+		st:fill/.get=\tikzumlRelationStereotypeFill,
 		style/.get=\tikzumlRelationStyle, name/.get=\tikzumlRelationName,
 		recursive mode/.get=\tikzumlRelationRecursiveMode,
 		recursive direction start/.get=\tikzumlRelationRecursiveDirectionStart,
@@ -937,7 +938,7 @@
 					node[pos=\tikzumlRelationPosition, swap, \posMultiplicity, \multAlign] {\tikzumlRelationMultiplicity}
 					node[pos=\tikzumlRelationPositionT, \posAttrNameT, \attrAlignT] {\tikzumlRelationAttrNameT}
 					node[pos=\tikzumlRelationPositionT, swap, \posMultiplicityT, \multAlignT] {\tikzumlRelationMultiplicityT}
-					node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+					node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 				\xdef\tikzumlPath{(\tikzumlSrcClassNodeName)
 					edge[in=\tikzumlRelationEndAngle, out=\tikzumlRelationStartAngle, distance=\tikzumlRelationLoopSize] \tikzumlLastArc
 					node[midway, inner sep=0, name=\tikzumlRelationName-1, anchor=center] {} (\tikzumlDestClassNodeName)
@@ -983,17 +984,17 @@
 					\ifnum\numArcs=4
 						\ifnum\theposStereo>300
 							\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-300)/100}
-							\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype}}
+							\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype}}
 						\else
 							\ifnum\theposStereo<100
-								\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype}}
+								\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype}}
 							\else
 								\ifnum\theposStereo>200
 									\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-200)/100}
-									\xdef\tikzumlMidTwoArc{\tikzumlMidTwoArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype}}
+									\xdef\tikzumlMidTwoArc{\tikzumlMidTwoArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype}}
 								\else
 									\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-100)/100}
-									\xdef\tikzumlMidOneArc{\tikzumlMidOneArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype}}
+									\xdef\tikzumlMidOneArc{\tikzumlMidOneArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype}}
 								\fi
 							\fi
 						\fi
@@ -1217,13 +1218,13 @@
 					\else
 						\ifnum\theposStereo>200
 							\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-200)/100}
-							\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+							\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 						\else
 							\ifnum\theposStereo<100
-								\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+								\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 							\else
 								\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-100)/100}
-								\xdef\tikzumlMidOneArc{\tikzumlMidOneArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+								\xdef\tikzumlMidOneArc{\tikzumlMidOneArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 							\fi
 						\fi
 
@@ -1455,7 +1456,7 @@
 				node[pos=\tikzumlRelationPosition, swap, \posMultiplicity, \multAlign] {\tikzumlRelationMultiplicity}
 				node[pos=\tikzumlRelationPositionT, \posAttrNameT, \attrAlignT] {\tikzumlRelationAttrNameT}
 				node[pos=\tikzumlRelationPositionT, swap, \posMultiplicityT, \multAlignT] {\tikzumlRelationMultiplicityT}
-				node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype}
+				node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype}
 			}
 			\xdef\tikzumlPath{(\tikzumlSrcClassNodeName\tikzumlRelationSrcAnchor) -- \tikzumlLastArc (\tikzumlDestClassNodeName\tikzumlRelationDestAnchor) }
 			\ifnum\thetikzumlStateLevel>0
@@ -1478,9 +1479,9 @@
 
 			\ifnum\theposStereo>100
 				\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-100)/100}
-				\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+				\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 			\else
-				\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+				\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 			\fi
 
 			\ifnum\thepos>100
@@ -1551,9 +1552,9 @@
 
 				\ifnum\theposStereo>100
 					\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-100)/100}
-					\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+					\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 				\else
-					\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+					\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 				\fi
 
 				\ifnum\thepos>100
@@ -1640,13 +1641,13 @@
 
 					\ifnum\theposStereo>200
 						\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-200)/100}
-						\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+						\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 					\else
 						\ifnum\theposStereo<100
-							\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+							\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 						\else
 							\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-100)/100}
-							\xdef\tikzumlMidOneArc{\tikzumlMidOneArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+							\xdef\tikzumlMidOneArc{\tikzumlMidOneArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 						\fi
 					\fi
 
@@ -1758,13 +1759,13 @@
 
 						\ifnum\theposStereo>200
 							\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-200)/100}
-							\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+							\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 						\else
 							\ifnum\theposStereo<100
-								\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+								\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 							\else
 								\pgfmathsetmacro{\tikzumlRelationPositionStereotype}{(\theposStereo-100)/100}
-								\xdef\tikzumlMidOneArc{\tikzumlMidOneArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor] {\stereotype} }
+								\xdef\tikzumlMidOneArc{\tikzumlMidOneArc node[pos=\tikzumlRelationPositionStereotype, anchor=\tikzumlRelationStereotypeAnchor, fill=\tikzumlRelationStereotypeFill] {\stereotype} }
 							\fi
 						\fi
 

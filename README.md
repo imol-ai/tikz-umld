@@ -72,8 +72,8 @@ make check
 The build uses `latexmk` and writes generated files to `build/`. Individual
 targets are `make manual` and `make examples`.
 
-`make release-archive` rebuilds everything, refreshes the checked-in manual
-PDF, and creates `build/tikz-umld.tar.gz` with the required top-level
+`make release-archive` rebuilds everything, refreshes the checked-in manual and
+example PDFs, and creates `build/tikz-umld.tar.gz` with the required top-level
 directory. `make ctan-archive` is an alias for this final release archive.
 
 ## History and authorship

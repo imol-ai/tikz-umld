@@ -20,7 +20,7 @@
   }{}
 \end{umlpackage}
 \umlassoc[geometry=-|-, arg1=tata, mult1=*, pos1=0.3, arg2=toto, mult2=1, pos2=2.9, align2=left]{C}{B}
-\umlunicompo[geometry=-|, arg=titi, mult=*, pos=1.7, stereo=vector]{D}{C}
+\umlunicompos[geometry=-|, arg=titi, mult=*, pos=1.7, stereo=vector]{D}{C}
 \umlimport[geometry=|-, anchors=90 and 50]{sp2}{sp1}
 \umlaggreg[arg=tutu, mult=1, pos=0.8, angle1=30, angle2=60, loopsize=2cm]{D}{D}
 \umlinherit[geometry=-|]{D}{B}

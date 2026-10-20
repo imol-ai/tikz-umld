@@ -8,6 +8,6 @@
 \end{umlcomponent}
 
 \umldelegateconnector{A-west-port}{B-west-interface}
-\umlHVHdelegateconnector[pos stereo=1.5]{A-west-port}{C-west-interface}
+\umlHVHdelegateconnector[st:pos=1.5]{A-west-port}{C-west-interface}
 \umlport{A}{west}
 \end{tikzpicture}

@@ -1,0 +1,89 @@
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} % UTF-8 input encoding %
+\usepackage[english]{babel} % document language %
+\usepackage{geometry}
+\usepackage{graphicx} % for including images %
+\usepackage{pgf} % for drawing %
+\usepackage{tikz} % for drawing %
+\usepackage{xcolor} % colour definitions %
+\usepackage[plainpages=false,pdfpagelabels,bookmarksnumbered,breaklinks=true]{hyperref} % for cross-references %
+\usepackage{amsmath} % for maths formulas %
+\usepackage{latexsym} % for maths symbols %
+\usepackage{amssymb} % for maths symbols %
+\usepackage{xspace}
+\usepackage{aeguill} % ae font set; keeps the manual typeface and layout stable %
+\usepackage{float}
+\usepackage{listings} % for code listings %
+\usepackage{helvet} % Helvetica font %
+\usepackage{manfnt}
+\usepackage{tikz-umld} % UML diagrams
+
+\definecolor{tumlcolor}{RGB}{255,127,0}%
+
+
+\usetikzlibrary{positioning}
+\newcommand{\inputTikZ}[1]{%
+  \input{fig/#1.tikz}%
+}%
+
+\hypersetup{%
+  pdftitle={TikZ-UMLD User Guide},%
+  pdfauthor={N. Kielbasiewicz and D. Imolai},%
+  pdfpagemode=UseOutlines,%
+  linkbordercolor=0 0 0,%
+  linkcolor=black,%
+  citecolor=black,%
+  colorlinks=true%
+}%
+
+\geometry{a4paper, top=2.5cm, bottom=2.5cm, left=1.8cm, right=1.8cm}
+%\itemsep -0.15cm
+\parindent=0pt
+
+\sloppy
+\hyphenpenalty 10000000
+
+
+%\pagestyle{fancy} % put a header and footer on each page %
+% \cfoot{\thepage}
+
+%\fancypagestyle{plain}{%
+%  \fancyhf{}
+%  \fancyfoot{}
+%  \renewcommand\headrulewidth{0pt}
+%  \renewcommand\footrulewidth{0pt}
+%}
+
+%\fancyhead[RE,LO]{\leftmark}
+%\fancyhead[RO,LE]{\thepage}
+%\fancyfoot{}
+
+\def\figureautorefname{figure}%
+\def\tableautorefname{table}%
+\def\partautorefname{part}%
+\def\chapterautorefname{chapter}%
+\def\appendixautorefname{appendix}%
+\def\sectionautorefname{section}%
+\def\subsectionautorefname{subsection}%
+\def\subsubsectionautorefname{paragraph}%
+
+\newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
+
+\newenvironment{remark}{\begin{itshape}\textdbend}{\end{itshape}}
+\newenvironment{remark2}{\begin{itshape}\textdbend\textdbend}{\end{itshape}}
+\newenvironment{remark3}{\begin{itshape}\textdbend\textdbend\textdbend}{\end{itshape}}
+
+% redefinitions required when the marvosym package is included
+%\renewcommand{\Rightarrow}{\reflectbox{$\Leftarrow$}}
+%\renewcommand{\Longrightarrow}{\reflectbox{$\Longleftarrow$}}
+
+\newcommand{\tuml}{{\sc TikZ-UMLD} \xspace}
+\newcommand{\TikZ}{{\sc TikZ} \xspace}
+
+
+\usepackage{tikz-umld-listings-style}
+
+\lstset{language=tuml,%
+style=main,%
+}%

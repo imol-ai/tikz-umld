@@ -1,5 +1,5 @@
 \begin{tikzpicture}
-\begin{umlstate}[name=Amain]{Etat global de l'objet A}
+\begin{umlstate}[name=Amain]{Global state of object A}
 \begin{umlstate}[name=Bgraph, fill=red!20]{graphe B}
 \umlbasicstate[y=-4, name=test1, fill=white]{test1}
 \umlbasicstate[y=-8, name=test2, fill=white]{test2}

@@ -4,5 +4,5 @@
 \umlusecase[x=5, y=-2, name=case3]{use case 3}
 
 \umlinclude{case1}{case2}
-\umlVHextend[pos stereo=1.5]{case1}{case3}
+\umlVHextend[st:pos=1.5]{case1}{case3}
 \end{tikzpicture}

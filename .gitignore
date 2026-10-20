@@ -30,3 +30,4 @@ examples/*.idv
 examples/*.lg
 examples/*.tmp
 examples/*.xref
+/build/

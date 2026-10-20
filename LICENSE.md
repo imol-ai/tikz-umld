@@ -2,6 +2,14 @@
 
 Version 3, 19 November 2007
 
+## Application to TikZ-UMLD
+
+Copyright (C) 2024–2026 David Imolai.
+
+TikZ-UMLD, including this modified distribution, may be distributed and/or
+modified under the terms of the GNU Affero General Public License, version 3 or
+(at your option) any later version. See `NOTICE.md` for origin and attribution.
+
 Copyright (C) 2007 Free Software Foundation, Inc.
 <https://fsf.org/>
 

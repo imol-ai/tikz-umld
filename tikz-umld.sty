@@ -1,14 +1,17 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Start of tikz-umld.sty
 % Some macros for UML Diagrams.
-% Home page of project :
-% Author: David Imolai
-% Version: 1.0
-% Credit goes to Nicolas Kielbasiewicz (nicolas.kielbasiewicz@ensta-paristech.fr), author of the original tikz-uml.sty package.
+% Repository: https://github.com/imol-ai/tikz-umld
+% Maintainer: David Imolai
+% Version: 1.0.0 (2026-10-07)
+% Derived from TikZ-UML 1.0 by Nicolas Kielbasiewicz.
+% This work may be distributed and/or modified under the terms of the
+% GNU Affero General Public License, version 3 or (at your option) any later
+% version. See LICENSE.md and NOTICE.md.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesPackage{tikz-umld}[2024/04/10]
+\ProvidesPackage{tikz-umld}[2026/10/07 v1.0.0 TikZ UML diagrams]
 
 \RequirePackage{ifthen,tikz,xstring,calc,pgfopts,etoolbox}
 \usetikzlibrary{backgrounds,arrows,arrows.meta,shapes,fit,shadows,decorations.markings}
@@ -98,6 +101,13 @@
 		\let\keyvalue=\pgfkeyscurrentvalue
 		\errmessage{TIKZUML ERROR : in tikzuml global, invalid option \keyname}
 	}
+}
+
+% Label-only assembly-connector options are consumed by \umlassemblyconnector.
+% Declare no-op TikZ counterparts because connector options are also forwarded
+% to the underlying relation renderer.
+\tikzset{
+	labelpos/.code={}
 }
 
 \pgfkeys{/tikzuml/.cd, text/.get=\tikzumlDefaultTextColor, draw/.get=\tikzumlDefaultDrawColor, font/.get=\tikzumlDefaultFont,
@@ -198,7 +208,7 @@
 \tikzstyle{tikzuml simpleinterface style}=[circle, minimum height=1em, node distance=1em]
 \tikzstyle{tikzuml class style}=[rectangle split, rectangle split parts=3, rectangle split part align={center, left, left}, minimum height=2em, node distance=2em]
 \tikzstyle{tikzuml enumeration style}=[rectangle split, rectangle split parts=2, rectangle split part align={center, left}, minimum height=2em, node distance=2em]
-\tikzstyle{tikzuml narynode style}=[{Diamond[scale=3]}]
+\tikzstyle{tikzuml narynode style}=[diamond]
 \tikzstyle{tikzuml template style}=[dashed, inner ysep=0.5em, inner xsep=1ex]
 \tikzstyle{tikzuml control nodes style}=[fill=black, inner sep=1.5pt, circle]
 
@@ -777,7 +787,7 @@
 %            anchor1, anchor2: src/dest anchors on linked classes
 %            angle1, angle2, loopsize: start angle, end angle and size of the relation (only if recursive)
 %            stereo: stereotype of the relation
-%            pos stereo: position of the stereotype on the relation
+%            st:pos, st:anchor, st:fill: stereotype position, anchor, and background
 %            style: style of the relation (association, aggregation, composition, inherit, ...)
 %            name: rootname used for naming nodes of the relation
 %            recursive mode: type of recursive arrow (transition for state diagrams, or default)
@@ -1856,7 +1866,7 @@
 
 	\begin{pgfonlayer}{connections}
 	\ifthenelse{\equal{\tikzumlRelationStyle}{tikzuml nesting style}}{
-		\pgfarrowsdeclare{nested}{nested}{...}
+		\pgfarrowsdeclare{nested}{nested}{}
 		{
 			\tikzumlNestingSymbolSize=0.2pt
 			\advance\tikzumlNestingSymbolSize by .5\pgflinewidth
@@ -2093,7 +2103,7 @@
 %            align1, align2, align: text justification of the src/dest/dest side class type attribute defined by the relation
 %            anchor1, anchor2: src/dest anchors on linked classes
 %            stereo: stereotype of the relation
-%            pos stereo: position of the stereotype on the relation
+%            st:pos, st:anchor, st:fill: stereotype position, anchor, and background
 %            style: style of the relation (association, aggregation, composition, inherit, ...)
 %            name: rootname used for naming nodes of the relation
 \newcommand{\umlCNrelation}[4][]{
@@ -2102,7 +2112,8 @@
 		pos1/.initial=0.2, pos2/.initial=0.8, pos/.initial=tikzumlEmpty,
 		align1/.initial={}, align2/.initial={}, align/.initial={},
 		anchor1/.initial=tikzumlEmpty, anchor2/.initial=tikzumlEmpty,
-		stereo/.initial={}, pos stereo/.initial=1,
+		stereo/.initial={}, st:pos/.initial=1,
+		st:anchor/.initial=center, st:fill/.initial=none,
 		style/.initial=->, name/.initial=relation-\thetikzumlRelationNum,
 		.unknown/.code={
 			\let\keyname=\pgfkeyscurrentname
@@ -2116,7 +2127,9 @@
 		pos1/.get=\tikzumlCNRelationPosition, pos2/.get=\tikzumlCNRelationPositionTO, pos/.get=\tikzumlCNRelationPositionTT,
 		align1/.get=\tikzumlCNRelationAlign, align2/.get=\tikzumlCNRelationAlignTO, align/.get=\tikzumlCNRelationAlignTT,
 		anchor1/.get=\tikzumlCNRelationSrcAnchor, anchor2/.get=\tikzumlCNRelationDestAnchor,
-		stereo/.get=\tikzumlCNRelationStereoType, pos stereo/.get=\tikzumlCNRelationPositionStereotype,
+		stereo/.get=\tikzumlCNRelationStereoType, st:pos/.get=\tikzumlCNRelationPositionStereotype,
+		st:anchor/.get=\tikzumlCNRelationStereotypeAnchor,
+		st:fill/.get=\tikzumlCNRelationStereotypeFill,
 		style/.get=\tikzumlCNRelationStyle, name/.get=\tikzumlCNRelationName
 	}
 
@@ -2216,9 +2229,9 @@
 
 	\ifnum\theposStereo>100
 		\pgfmathsetmacro{\tikzumlCNRelationPositionStereotype}{(\theposStereo-100)/100}
-		\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlCNRelationPositionStereotype, anchor=center] {\stereotype} }
+		\xdef\tikzumlLastArc{\tikzumlLastArc node[pos=\tikzumlCNRelationPositionStereotype, anchor=\tikzumlCNRelationStereotypeAnchor, fill=\tikzumlCNRelationStereotypeFill] {\stereotype} }
 	\else
-		\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlCNRelationPositionStereotype, anchor=center] {\stereotype} }
+		\xdef\tikzumlFirstArc{\tikzumlFirstArc node[pos=\tikzumlCNRelationPositionStereotype, anchor=\tikzumlCNRelationStereotypeAnchor, fill=\tikzumlCNRelationStereotypeFill] {\stereotype} }
 	\fi
 
 	\ifnum\thepos>100
@@ -2273,7 +2286,7 @@
 
 	\begin{pgfonlayer}{connections}
 	\ifthenelse{\equal{\tikzumlCNRelationStyle}{tikzuml nesting style}}{
-		\pgfarrowsdeclare{nested}{nested}{...}
+		\pgfarrowsdeclare{nested}{nested}{}
 		{
 			\tikzumlNestingSymbolSize=0.2pt
 			\advance\tikzumlNestingSymbolSize by .5\pgflinewidth
@@ -2449,7 +2462,7 @@
 		\end{pgfonlayer}
 	}{
 		\begin{pgfonlayer}{main}
-			\draw ([shift={(\tikzumlNotePointerX,\tikzumlNotePointerY)}]\tikzumlClassNodeName) node[circle,inner sep=3pt,fill=\tikzumlNoteDefaultFillColor,draw] (note-\thetikzumlNoteNum-pointer) {};
+			\draw ([shift={(\tikzumlNotePointerX,\tikzumlNotePointerY)}]\tikzumlClassNodeName) node[circle,inner sep=3pt,fill=\tikzumlNoteFillColor,draw=\tikzumlNoteDrawColor] (note-\thetikzumlNoteNum-pointer) {};
 			\draw[densely dashed] (note-\thetikzumlNoteNum-coord\tikzumlNoteSrcAnchor) \tikzumlnotepath (note-\thetikzumlNoteNum-pointer);
 		\end{pgfonlayer}
 	}
@@ -5154,6 +5167,8 @@
 \newlength{\tikzuml@AC@xbrc}
 \newlength{\tikzuml@AC@ybrc}
 \newlength{\tikzuml@AC@middleArm}
+\newlength{\tikzuml@AC@labelXShift}
+\newlength{\tikzuml@AC@labelYShift}
 
 \newcommand{\umlassemblyconnectorsymbol}[2]{
 	\ifthenelse{\NOT\equal{\tikzumlAssemblyConnectorLabel}{}}{
@@ -5203,7 +5218,26 @@
 	\clip (\tikzuml@ACInterface@nodeName-trc) --  (\tikzuml@ACInterface@nodeName-tlc) -- (\tikzuml@ACInterface@nodeName-blc) -- (\tikzuml@ACInterface@nodeName-brc) -- cycle;
 	\node[inner sep=0, text width=\tikzuml@AC@width, circle, draw=\tikzumlAssemblyConnectorDrawColor, fill=\tikzumlAssemblyConnectorFillColor] (\tikzuml@ACInterface@nodeName-ic) at (\tikzuml@AC@xic,\tikzuml@AC@yic) {};
 	\end{scope}
-	\node[above, font=\tikzumlDefaultFont] at (\tikzuml@ACInterface@nodeName-interface.north)
+	\pgfmathsetlength{\tikzuml@AC@labelXShift}{0pt}
+	\pgfmathsetlength{\tikzuml@AC@labelYShift}{0pt}
+	\ifthenelse{\equal{\tikzumlAssemblyConnectorLabelPosition}{right}}{
+		\pgfmathsetlength{\tikzuml@AC@labelXShift}{0.5*\tikzuml@AC@width}
+	}{
+		\ifthenelse{\equal{\tikzumlAssemblyConnectorLabelPosition}{left}}{
+			\pgfmathsetlength{\tikzuml@AC@labelXShift}{-0.5*\tikzuml@AC@width}
+		}{
+			\ifthenelse{\equal{\tikzumlAssemblyConnectorLabelPosition}{above}}{
+				\pgfmathsetlength{\tikzuml@AC@labelYShift}{0.5*\tikzuml@AC@width}
+			}{
+				\ifthenelse{\equal{\tikzumlAssemblyConnectorLabelPosition}{below}}{
+					\pgfmathsetlength{\tikzuml@AC@labelYShift}{-0.5*\tikzuml@AC@width}
+				}{}
+			}
+		}
+	}
+	\node[\tikzumlAssemblyConnectorLabelPosition, font=\tikzumlDefaultFont,
+		xshift=\tikzuml@AC@labelXShift,
+		yshift=\tikzuml@AC@labelYShift] at (\tikzuml@ACInterface@nodeName-interface.center)
  {\tikzumlAssemblyConnectorLabel};
 	}{}
 }
@@ -5215,6 +5249,7 @@
 	\def\tikzumlAssemblyConnectorMiddleArm{tikzumlFalse}
 	\def\tikzumlAssemblyConnectorLastArm{tikzumlFalse}
 	\pgfkeys{/tikzuml/assemblyconnectorrelation/.cd, geometry/.initial=--, interface/.initial={},
+		labelpos/.initial=above,
 		arm1/.initial={auto}, arm2/.initial={auto},
 		name/.initial=connector-\thetikzumlConnectorNum, width/.initial=1em,
 		anchor1/.initial={}, anchor2/.initial={},
@@ -5250,6 +5285,7 @@
 	\pgfkeys{/tikzuml/assemblyconnectorrelation/.cd, geometry/.get=\tikzumlAssemblyConnectorGeometry,
 		name/.get=\tikzumlAssemblyConnectorName,
 		interface/.get=\tikzumlAssemblyConnectorLabel,
+		labelpos/.get=\tikzumlAssemblyConnectorLabelPosition,
 		width/.get=\tikzumlAssemblyConnectorWidth,
 		arm1/.get=\tikzumlAssemblyConnectorStartArm,
 		arm2/.get=\tikzumlAssemblyConnectorEndArm,

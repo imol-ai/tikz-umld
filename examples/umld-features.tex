@@ -1,0 +1,62 @@
+\documentclass[a4paper]{article}
+\usepackage[margin=18mm]{geometry}
+\usepackage{tikz-umld}
+
+\title{TikZ-UMLD feature examples}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Classes, constraints, enumerations, and pointed notes}
+
+\begin{center}
+\begin{tikzpicture}
+  \umlabstract{Shape}{}{
+    \umlpvirt{area(): real} \\
+    \umlquery{isEmpty(): boolean}
+  }
+  \umlclass[x=6]{Circle}{
+    \umlcon{radius: real}{readOnly}
+  }{
+    \umloverrd{area(): real}
+  }
+  \umlenum[x=6,y=-5]{Colour}{red \\ green \\ blue}
+
+  \umlinherit{Circle}{Shape}
+  \umlnode{9,-2.5}{route}
+  \umlCNdep[stereo=uses,st:pos=.55,st:anchor=south,
+            st:fill=white]{Circle}{route}{Colour}
+  \umlnote[x=0,y=-4,px=0,py=-1,width=12em,
+           draw=green!50!black,fill=green!10]{Shape}{
+    Every concrete shape supplies an area.
+  }
+\end{tikzpicture}
+\end{center}
+
+\section*{Static object diagram}
+
+\begin{center}
+\begin{tikzpicture}
+  \begin{umlobjdiag}
+    \umlobject[class=Customer]{alice}
+    \umlobject[class=Order,x=6]{order}
+    \umlassoc[mult1=1,mult2=*]{alice}{order}
+  \end{umlobjdiag}
+\end{tikzpicture}
+\end{center}
+
+\section*{Actor and assembly-connector labels}
+
+\begin{center}
+\begin{tikzpicture}
+  \umlactor[head=cyan!35]{User}
+  \umlbasiccomponent[x=4]{Client}
+  \umlbasiccomponent[x=10]{Server}
+  \umlassoc{User}{Client}
+  \umlassemblyconnector[interface=Storage,labelpos=below]{Client}{Server}
+\end{tikzpicture}
+\end{center}
+
+\end{document}

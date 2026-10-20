@@ -5,7 +5,7 @@
 \usepackage[french]{babel}
 \usepackage{listings}
 \usepackage{fancyvrb}
-\usepackage{../tikz-uml}
+\usepackage{tikz-umld}
 \usetikzlibrary{positioning}
 
 \textwidth 18.5cm
@@ -52,18 +52,18 @@ If you want to copy and paste the following source code, please take care of whi
 \end{umlpackage}
 
 \umlassoc[geometry=-|-, arg1=tata, mult1=*, pos1=0.3, arg2=toto, mult2=1, pos2=2.9, align2=left]{C}{B}
-\umlunicompo[geometry=-|, arg=titi, mult=*, pos=1.7, stereo=vector]{D}{C}
+\umlunicompos[geometry=-|, arg=titi, mult=*, pos=1.7, stereo=vector]{D}{C}
 \umlimport[geometry=|-, anchors=90 and 50, name=import]{sp2}{sp1}
 \umlaggreg[arg=tutu, mult=1, pos=0.8, angle1=30, angle2=60, loopsize=2cm]{D}{D}
 \umlinherit[geometry=-|]{D}{B}
-\umlnote[x=2.5,y=-6, width=3cm]{B}{Je suis une note qui concerne la classe B}
-\umlnote[x=7.5,y=-2]{import-2}{Je suis une note qui concerne la relation d'import}
+\umlnote[x=2.5,y=-6, width=3cm]{B}{I am a note about class B}
+\umlnote[x=7.5,y=-2]{import-2}{I am a note about the import relation}
 \end{lstlisting}
 
 \begin{SaveVerbatim}{toto}
-Je suis une note
-qui concerne la 
-relation d'import
+I am a note
+about the
+import relation
 \end{SaveVerbatim}
 
 \begin{center}
@@ -91,11 +91,11 @@ relation d'import
 \end{umlpackage}
 
 \umlassoc[geometry=-|-, arg1=tata, mult1=*, pos1=0.1, align1=right, arg2=toto, mult2=1, pos2=2.9, align2=left]{C}{B}
-\umlunicompo[geometry=-|, arg=titi, mult=*, pos=1.7, stereo=vector]{D}{C}
+\umlunicompos[geometry=-|, arg=titi, mult=*, pos=1.7, stereo=vector]{D}{C}
 \umlimport[geometry=|-, anchors=90 and 50, name=import]{sp2}{sp1}
 \umlaggreg[arg=tutu, mult=1, pos=0.8, angle1=30, angle2=60, loopsize=2cm]{D}{D}
 \umlinherit[geometry=-|]{D}{B}
-\umlnote[x=2.5,y=-6, width=3cm]{B}{Je suis une note qui concerne la classe B}
+\umlnote[x=2.5,y=-6, width=3cm]{B}{I am a note about class B}
 \umlnote[x=7.5,y=-2]{import-2}{\UseVerbatim{toto}}
 \end{tikzpicture}
 \end{center}

@@ -1,0 +1,277 @@
+\documentclass{article}
+\usepackage[paper=A4,DIV=21]{typearea}
+\usepackage[T1]{fontenc}
+\usepackage{tikz-umld}
+
+\newcommand{\bb}[1]{\textbf{#1}}
+
+\title{TikZ-UMLD worked example:\\a radiation simulation}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+This example models a small simulation and draws four diagrams of it. A
+planet is populated by plants of three species. Each day the planet radiates
+the plants with alpha radiation, delta radiation or none; the radiation changes
+a plant's nutrient level, and a surviving plant then signals how much it
+wants alpha or delta radiation the next day. If the alpha demand exceeds the
+delta demand by at least three, the planet switches to alpha; in the opposite
+case it switches to delta; otherwise there is no radiation.
+
+Each section below says which TikZ-UMLD features the diagram exercises.
+
+\section{Use case diagram}
+
+A system boundary with a fill colour, use cases of a fixed width, and
+dependencies whose stereotype label is moved with \texttt{st:anchor}.
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{umlsystem}[x=4,fill=green!20]{}
+			\umlusecase[width=2cm,name=0]{new day starts}
+			\umlusecase[y=-4,width=2cm,name=1]{radiation changes}
+			\umlusecase[x=6,width=2cm,name=2]{nutrient level changes}
+			\umlusecase[x=6,y=-4,width=2cm,name=3]{signals radiation demand}
+		\end{umlsystem}
+		\umlactor[y=-2]{globe}
+		\umlactor[x=14,y=-2]{plant}
+		\umldep[stereo=invoke, st:anchor=south]{0}{2}
+		\umldep[stereo=extend]{2}{3}
+		\umldep[stereo=extend, st:anchor=north]{3}{1}
+		\umlassoc{globe}{0}
+		\umlassoc{globe}{1}
+		\umlassoc{plant}{2}
+		\umlassoc{plant}{3}
+	\end{tikzpicture}
+\end{center}
+
+\section{Sequence diagram}
+
+Nested synchronous calls, a call with an empty return label
+(\texttt{return=\textbackslash,}), a multi-object (\verb|\umlmulti|) and an
+enclosing loop fragment with extra horizontal padding.
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{umlseqdiag}
+			\umlobject[class=Globe]{globe}
+			\umlobject[class=Plant, x=5]{plant}
+			\umlmulti[class=Radiation, x=9]{r}
+			\umlobject[class=Radiation, x=12]{fav}
+			\begin{umlfragment}[type=simulate x times, inner xsep=5]{}
+				\begin{umlcall}[return=\,,op=newDay(r:Radiation), dt=10]{globe}{plant}
+					\begin{umlcall}[return=\,,op=radiate(this)]{plant}{r}
+						\begin{umlcall}[op=nutrify(int)]{r}{plant}
+						\end{umlcall}
+					\end{umlcall}
+					\begin{umlcall}[dt=6,return=\,,op=request(int)]{plant}{fav}
+					\end{umlcall}
+				\end{umlcall}
+				\begin{umlcall}[op=getRequested:\,max\,max2,dt=6]{globe}{r}
+					\begin{umlcall}[type=return]{r}{globe}
+					\end{umlcall}
+					\begin{umlcallself}[op=setRadiation]{globe}
+					\end{umlcallself}
+				\end{umlcall}
+				\umlsdnode[dt=3]{globe}
+				\umlsdnode[dt=3]{r}
+			\end{umlfragment}
+		\end{umlseqdiag}
+	\end{tikzpicture}
+\end{center}
+
+\section{State machine diagram}
+
+Transitions that leave and enter states from chosen angles
+(\texttt{anchors}), horizontal--vertical and vertical--horizontal routing, and
+recursive transitions with explicit loop geometry.
+
+\begin{center}
+	\begin{tikzpicture}
+		\begin{umlstate}[name=0,fill=green!20]{Globe - state of radiation}
+			\umlbasicstate[name=n]{None}
+			\umlbasicstate[x=-7,y=-5,name=a]{Alpha}
+			\umlbasicstate[x=7,y=-5,name=d]{Delta}
+			\umlHVtrans[arg={[Alpha.requested$>$Delta.requested+3]}, pos=0.5]{n}{a}
+			\umlVHtrans[arg={[Alpha.requested$-$Delta.requested$\le$3]}, pos=1.5, anchors=105 and 165]{a}{n}
+			\umlHVtrans[arg={[Delta.requested$>$Alpha.requested+3]}, pos=0.5, below]{n}{d}
+			\umlVHtrans[arg={[Alpha.requested$-$Delta.requested$\le$3]}, pos=1.5, above,anchors=75 and 15]{d}{n}
+			\umltrans[arg={[Alpha.requested$-$Delta.requested$\le$3]}, recursive=-45|-135|1cm, recursive direction=bottom to bottom, pos=1.5]{n}{n}
+			\umltrans[arg={[Delta.requested$>$Alpha.requested+3]}, pos=0.5]{a}{d}
+			\umltrans[arg={[Alpha.requested$>$Delta.requested+3]}, pos=0.5, anchors=195 and -15]{d}{a}
+			\umltrans[arg={[Alpha.requested$>$Delta.requested+3]}, recursive=60|30|3cm, recursive direction=top to right, pos=2.2]{a}{a}
+			\umltrans[arg={[Delta.requested$>$Alpha.requested+3]}, recursive=150|120|3cm, recursive direction=left to top, pos=1.3]{d}{d}
+
+		\end{umlstate}
+	\end{tikzpicture}
+\end{center}
+
+\KOMAoptions{paper=280mm:480mm, paper=landscape, DIV=23}
+\recalctypearea
+
+\section{Class diagram}
+
+The largest diagram, set on a wide page. It combines abstract and singleton
+classes, constrained attributes and operations (\verb|\umlcon|), pure-virtual
+and overriding operation markers, aggregation and composition with routed arms,
+orthogonal inheritance, and pointed notes with custom geometry.
+
+\begin{center}
+	\begin{tikzpicture}
+
+		\umlclass[x=-6,y=6]{Globe}{
+			- radiation: Radiation\\
+		}{
+			+ simulate(x: int): Plant?\\
+		}
+
+		\umlclass[x=-12,type=abstract]{Plant}{
+			\umlcon{\# name: string}{getter}\\
+			\umlcon{\# nutrition: int}{getter}\\
+		}{
+			\umlpvirt{+ newDay(Radiation)}\\
+			\umlcon{+ isAlive(): bool}{virtual,query}\\
+			+ nutrify(n: int)\\
+		}
+		\umlclass[x=-16,y=-5.4]{Puffy}{
+			\umlcon{+ fav: Radiation := Alpha}{readonly}\\
+		}{
+			\umloverrd{+ newDay(r: Radiation)}\\
+			\umlcon{+ isAlive(): bool}{query,override}\\
+		}
+		\umlclass[x=-12,y=-7.8]{Deltree}{
+			\umlcon{+ fav: Radiation := Delta}{readonly}\\
+		}{
+			\umloverrd{+ newDay(r: Radiation)}\\
+		}
+		\umlclass[x=-7,y=-10]{Parax}{
+			\umlcon{+ fav: Radiation := None}{readonly}\\
+		}{
+			\umloverrd{+ newDay(r: Radiation)}\\
+		}
+
+		\umlclass[x=12,type=abstract]{Radiation}{
+			\umlcon{\# requested: int := 0}{getter}
+		}{
+			+ request(n: int)\\
+			\umlpvirt{+ radiate(Puffy)}\\
+			\umlpvirt{+ radiate(Deltree)}\\
+			\umlpvirt{+ radiate(Parax)}\\
+		}
+		\umlclass[x=4,y=-6,type=singleton]{Alpha}{
+		}{
+			\umloverrd{+ radiate(p: Puffy)}\\
+			\umloverrd{+ radiate(p: Deltree)}\\
+			\umloverrd{+ radiate(p: Parax)}\\
+		}
+		\umlclass[x=12,y=-6,type=singleton]{Delta}{
+		}{
+			\umloverrd{+ radiate(p: Puffy)}\\
+			\umloverrd{+ radiate(p: Deltree)}\\
+			\umloverrd{+ radiate(p: Parax)}\\
+		}
+		\umlclass[x=20,y=-6,type=singleton]{None}{
+		}{
+			\umloverrd{+ radiate(p: Puffy)}\\
+			\umloverrd{+ radiate(p: Deltree)}\\
+			\umloverrd{+ radiate(p: Parax)}\\
+		}
+
+		\umlVHaggreg[anchor1=-110,mult1=1,mult2=*,arg2=-plants,pos2=1.75]{Globe}{Plant}
+		\umlVHcompos[anchor1=-70,mult2=*,arg2=-rads,pos2=1.95]{Globe}{Radiation}
+		\umldep[anchors=-15 and -165]{Plant}{Radiation}
+
+		\umlVHVinherit{Deltree}{Plant}
+		\umlVHVinherit[arm1=2cm]{Puffy}{Plant}
+		\umlVHVinherit{Parax}{Plant}
+
+		\umlVHVinherit{Alpha}{Radiation}
+		\umlVHVinherit{Delta}{Radiation}
+		\umlVHVinherit{None}{Radiation}
+
+		\umlnote[x=3,y=4.6,px=2.1,py=-0.6,width=29em]{Globe}{
+			radiation := None;\\
+			\bb{for} c \bb{in} $[1..x]$ \bb{do}\\
+			\, \bb{foreach} Plant p \bb{in} plants \bb{do}\\
+			\, \, \bb{if} p.isAlive() \bb{then} p.newDay(radiation) \bb{endif}\\
+			\, \bb{end foreach}\\
+			\, \textit{Radiation} max := None; \textit{Radiation} max2 := None;\\
+			\, \bb{foreach} Radiation r \bb{in} rads \bb{do}\\
+			\, \, \bb{if} r.Instance().getRequested()$>$max.Instance().getRequested()\\
+			\, \, \, \bb{then} max2 := max; max := r;\\
+			\, \, \bb{elif} r.Instance().getRequested()$>$max2.Instance().getRequested()\\
+			\, \, \, \bb{then} max2 := r;\\
+			\, \, \bb{endif}\\
+			\, \bb{end foreach}\\
+			\, \bb{if} max.Instance().getRequested()$>$max2.Instance().getRequested()$+3$\\
+			\, \, \bb{then} radiation := max;\\
+			\, \bb{else} radiation := None;\\
+			\, \bb{endif}\\
+			\bb{end for}\\
+			\bb{return} plants.\bb{Where}(p=>p.isAlive()).\bb{MaxBy}(p=>p.getNutrition());\\
+		}
+
+		\umlnote[x=-17,y=1.5,px=-2.5,py=-1,width=10em,anchor1=-30]{Plant}{
+			\bb{return} 0<nutrition;\\
+		}
+		\umlnote[x=-6,y=-1.8,px=0.4,py=-1.5,width=10em]{Plant}{
+			nutrition $+$$=$ n;\\
+		}
+		\umlnote[x=-17,y=-1.9,px=-2.9,py=-0.4,width=11.1em,anchor1=-140]{Puffy}{
+			r.radiate(this);\\
+			\bb{if} this.isAlive() \bb{then}\\
+			\, fav.Instance().request(10);\\
+			\bb{endif}\\
+		}
+		\umlnote[x=-17.2,y=-9,px=-2.9,py=-0.8,width=10em,anchor1=150]{Puffy}{
+			\bb{return} 0<nutrition$\le$10;\\
+		}
+		\umlnote[x=-4,y=-4.5,px=2.8,py=-0.6,width=12em]{Deltree}{
+			r.radiate(this);\\
+			\bb{if} 0$<$nutrition$<$5 \bb{then}\\
+			\, fav.Instance().request(4);\\
+			\bb{elif} 5$\le$nutrition$\le$10 \bb{then}\\
+			\, fav.Instance().request(1);\\
+			\bb{endif}\\
+		}
+		\umlnote[x=-14,y=-10.5,px=-2.9,py=-0.7,width=10em]{Parax}{
+			r.radiate(this);\\
+		}
+
+		\umlnote[x=17.5,y=1.5,px=2,py=-0.2,width=10em]{Radiation}{
+			requested $+$$=$ n;\\
+		}
+		\umlnote[x=4,y=-8.5,px=-2.5,py=-0.2,width=10em,geometry=-|-,arm=-4cm]{Alpha}{
+			p.nutrify(2);\\
+		}
+		\umlnote[x=4,y=-10,px=2.5,py=-0.7,width=10em,geometry=-|]{Alpha}{
+			p.nutrify(-3);\\
+		}
+		\umlnote[x=4,y=-11.5,px=-2.5,py=-1.1,width=10em,geometry=-|]{Alpha}{
+			p.nutrify(1);\\
+		}
+		\umlnote[x=12,y=-8.5,px=-2.5,py=-0.2,width=10em,geometry=-|-,arm=-4cm]{Delta}{
+			p.nutrify(-2);\\
+		}
+		\umlnote[x=12,y=-10,px=2.5,py=-0.7,width=10em,geometry=-|]{Delta}{
+			p.nutrify(4);\\
+		}
+		\umlnote[x=12,y=-11.5,px=-2.5,py=-1.1,width=10em,geometry=-|]{Delta}{
+			p.nutrify(1);\\
+		}
+		\umlnote[x=20,y=-8.5,px=-2.5,py=-0.2,width=10em,geometry=-|-,arm=-4cm]{None}{
+			p.nutrify(-1);\\
+		}
+		\umlnote[x=20,y=-10,px=2.5,py=-0.7,width=10em,geometry=-|]{None}{
+			p.nutrify(-1);\\
+		}
+		\umlnote[x=20,y=-11.5,px=-2.5,py=-1.1,width=10em,geometry=-|]{None}{
+			p.nutrify(-1);\\
+		}
+
+	\end{tikzpicture}
+\end{center}
+
+\end{document}

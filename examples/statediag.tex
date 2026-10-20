@@ -4,7 +4,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[french]{babel}
 \usepackage{listings}
-\usepackage{../tikz-uml}
+\usepackage{tikz-umld}
 
 \textwidth 18.5cm
 \textheight 25.5cm
@@ -29,7 +29,7 @@ If you want to copy and paste the following source code, please take care of whi
 \medskip
 \lstset{breaklines=true, frame=trBL, language=tikzuml}
 \begin{lstlisting}
-\begin{umlstate}[name=Amain]{Etat global de l'objet A}
+\begin{umlstate}[name=Amain]{Global state of object A}
 \begin{umlstate}[name=Bgraph, fill=red!20]{graphe B}
 \umlstateinitial[name=Binit]
 \umlbasicstate[y=-4, name=test1, fill=white]{test1}
@@ -57,7 +57,7 @@ If you want to copy and paste the following source code, please take care of whi
 
 \begin{center}
 \begin{tikzpicture}
-\begin{umlstate}[name=Amain]{Etat global de l'objet A}
+\begin{umlstate}[name=Amain]{Global state of object A}
 \begin{umlstate}[name=Bgraph, fill=red!20]{graphe B}
 \umlstateinitial[name=Binit]
 \umlbasicstate[y=-4, name=test1, fill=white]{test1}
@@ -84,4 +84,3 @@ If you want to copy and paste the following source code, please take care of whi
 \end{tikzpicture}
 \end{center}
 \end{document}
-

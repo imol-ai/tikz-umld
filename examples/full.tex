@@ -192,25 +192,25 @@ orthogonal inheritance, and pointed notes with custom geometry.
 		\umlVHVinherit{None}{Radiation}
 
 		\umlnote[x=3,y=4.6,px=2.1,py=-0.6,width=29em]{Globe}{
-			radiation := None;\\
-			\bb{for} c \bb{in} $[1..x]$ \bb{do}\\
-			\, \bb{foreach} Plant p \bb{in} plants \bb{do}\\
-			\, \, \bb{if} p.isAlive() \bb{then} p.newDay(radiation) \bb{endif}\\
-			\, \bb{end foreach}\\
-			\, \textit{Radiation} max := None; \textit{Radiation} max2 := None;\\
-			\, \bb{foreach} Radiation r \bb{in} rads \bb{do}\\
-			\, \, \bb{if} r.Instance().getRequested()$>$max.Instance().getRequested()\\
-			\, \, \, \bb{then} max2 := max; max := r;\\
-			\, \, \bb{elif} r.Instance().getRequested()$>$max2.Instance().getRequested()\\
-			\, \, \, \bb{then} max2 := r;\\
-			\, \, \bb{endif}\\
-			\, \bb{end foreach}\\
-			\, \bb{if} max.Instance().getRequested()$>$max2.Instance().getRequested()$+3$\\
-			\, \, \bb{then} radiation := max;\\
-			\, \bb{else} radiation := None;\\
-			\, \bb{endif}\\
-			\bb{end for}\\
-			\bb{return} plants.\bb{Where}(p=>p.isAlive()).\bb{MaxBy}(p=>p.getNutrition());\\
+		radiation := None;\\
+		\bb{for} c \bb{in} $[1..x]$ \bb{do}\\
+		\, \bb{foreach} Plant p \bb{in} plants \bb{do}\\
+		\, \, \bb{if} p.isAlive() \bb{then} p.newDay(radiation) \bb{endif}\\
+		\, \bb{end foreach}\\
+		\, \textit{Radiation} max := None; \textit{Radiation} max2 := None;\\
+		\, \bb{foreach} Radiation r \bb{in} rads \bb{do}\\
+		\, \, \bb{if} r.Instance().getRequested()$>$max.Instance().getRequested()\\
+		\, \, \, \bb{then} max2 := max; max := r;\\
+		\, \, \bb{elif} r.Instance().getRequested()$>$max2.Instance().getRequested()\\
+		\, \, \, \bb{then} max2 := r;\\
+		\, \, \bb{endif}\\
+		\, \bb{end foreach}\\
+		\, \bb{if} max.Instance().getRequested()$>$max2.Instance().getRequested()$+3$\\
+		\, \, \bb{then} radiation := max;\\
+		\, \bb{else} radiation := None;\\
+		\, \bb{endif}\\
+		\bb{end for}\\
+		\bb{return} plants.\bb{Where}(p=>p.isAlive()).\bb{MaxBy}(p=>p.getNutrition());\\
 		}
 
 		\umlnote[x=-17,y=1.5,px=-2.5,py=-1,width=10em,anchor1=-30]{Plant}{

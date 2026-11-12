@@ -1,0 +1,10 @@
+repos:
+  - repo: local
+    hooks:
+      - id: latexindent
+        name: latexindent
+        description: Re-indent the LaTeX sources (settings in .latexindent.yaml)
+        entry: tools/latexindent.sh
+        args: [format]
+        language: script
+        files: '\.(sty|tex|lvt)$'

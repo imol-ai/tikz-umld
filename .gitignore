@@ -31,3 +31,5 @@ examples/*.lg
 examples/*.tmp
 examples/*.xref
 /build/
+# latexindent log, written next to the formatted file
+indent.log

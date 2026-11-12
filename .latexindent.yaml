@@ -1,0 +1,69 @@
+# latexindent settings for TikZ-UMLD: re-indent only.
+#
+# Nothing here moves code between lines, aligns columns, or touches anything
+# but the whitespace at the start and end of a line, so formatting cannot
+# change what TeX does.  (A newline inside a macro body becomes a space, which
+# is why line breaks are left exactly as written.)
+defaultIndent: "\t"
+
+removeTrailingWhitespace:
+  beforeProcessing: 0
+  afterProcessing: 1
+
+# A `key={...}` value adds one level of its own, and so does its braced
+# argument; count it once, so the body sits one level inside the key line.
+noAdditionalIndentGlobal:
+  keyEqualsValuesBracesBrackets: 1
+
+# \newenvironment bodies open \begin{scope} in the begin code and close it in
+# the end code.  latexindent pairs those two across the "}{" between the
+# arguments, which would indent everything in between a level too deep.
+noAdditionalIndent:
+  scope: 1
+
+# Do not align the & of tables.
+lookForAlignDelims:
+  tabular: 0
+  tabularx: 0
+  longtable: 0
+  tabu: 0
+  array: 0
+  matrix: 0
+  listabla: 0
+  align: 0
+  align*: 0
+  alignat: 0
+  alignat*: 0
+  aligned: 0
+  alignedat: 0
+  bmatrix: 0
+  Bmatrix: 0
+  cases: 0
+  flalign: 0
+  flalign*: 0
+  pmatrix: 0
+  split: 0
+  vmatrix: 0
+  Vmatrix: 0
+  cases*: 0
+  dcases: 0
+  dcases*: 0
+  rcases: 0
+  rcases*: 0
+  drcases: 0
+  drcases*: 0
+
+# Environments whose content is significant, as written.
+verbatimEnvironments:
+  verbatim: 1
+  lstlisting: 1
+  minted: 1
+  SaveVerbatim: 1
+  Verbatim: 1
+
+# \loop ... \repeat is not a delimited pair that latexindent knows about.
+specialBeginEnd:
+  loopRepeat:
+    begin: \\loop\b
+    end: \\repeat\b
+    lookForThis: 1

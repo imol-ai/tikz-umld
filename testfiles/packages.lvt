@@ -1,0 +1,23 @@
+% Packages, nested packages, and the n-ary association diamond.
+\documentclass{article}
+\input{regression-test.tex}
+\usepackage{tikz-umld}
+\input{umld-test.tex}
+\begin{document}
+\START
+\hfuzz=\maxdimen
+\begin{tikzpicture}
+	\begin{umlpackage}{outer}
+		\umlemptyclass[x=0,y=0]{Inner}
+		\begin{umlpackage}[x=4,y=0]{nested}
+			\umlemptyclass{Deep}
+		\end{umlpackage}
+	\end{umlpackage}
+	\umlemptyclass[x=0,y=-5]{A}
+	\umlemptyclass[x=6,y=-5]{B}
+	\umlNarynode[x=3,y=-5,name=nary]{label}
+	\umlassoc{A}{nary}
+	\umlassoc{nary}{B}
+	\NodeAt{Inner}\NodeAt{Deep}\NodeAt{A}\NodeAt{B}\NodeAt{nary}
+\end{tikzpicture}
+\end{document}

@@ -1,6 +1,6 @@
 # TikZ-UMLD provenance and copyright notice
 
-TikZ-UMLD 1.0.0 is maintained by David Imolai and is derived from TikZ-UML 1.0
+TikZ-UMLD is maintained by David Imolai and is derived from TikZ-UML 1.0
 by Nicolas Kielbasiewicz, published on 29 March 2016 at
 <https://perso.ensta.fr/~kielbasi/tikzuml/index.php?lang=en>.
 

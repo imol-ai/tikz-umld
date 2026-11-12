@@ -1,7 +1,14 @@
 # Changelog
 
-This file reconstructs the UMLD history from the Git commit log. Dates are
-commit dates. The project did not use release tags during this period.
+## 1.0.1 — 2026-11-12
+
+- Honour the `name` option of `\umlclass`, so classes with underscores or
+  namespaces in their title can be referenced by a simple node name.
+- Build with l3build: `l3build ctan` writes the CTAN archive with correct file
+  permissions (0644 files), which CTAN requires, and refuses to build it if the
+  tests fail. The examples moved to `doc/examples/`.
+- Add regression tests (`l3build check`) that run on pdfTeX, XeTeX and LuaTeX
+  and check node names and positions of every diagram family.
 
 ## 1.0.0 — 2026-10-07
 

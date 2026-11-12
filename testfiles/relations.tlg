@@ -1,0 +1,16 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+NODE A: 0.0, 0.0
+NODE B: 171.0, 0.0
+NODE C: 171.0, -114.0
+NODE D: 0.0, -114.0
+NODE r1-1: 85.0, 0.0
+NODE r3-1: 0.0, -66.0
+NODE r3-2: 0.0, -114.0
+NODE r7-1: 171.0, -48.0
+NODE r10-1: 0.0, -48.0
+NODE r10-2: 0.0, 0.0
+NODE r12-1: 96.0, 0.0
+NODE r13-1: 171.0, -38.0
+[1
+] (relations.aux)

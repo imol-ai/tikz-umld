@@ -1,0 +1,27 @@
+% Sequence diagrams: objects, nested calls, self calls, returns, fragments and object creation.
+\documentclass{article}
+\input{regression-test.tex}
+\usepackage{tikz-umld}
+\input{umld-test.tex}
+\begin{document}
+\START
+\hfuzz=\maxdimen
+\begin{tikzpicture}
+	\begin{umlseqdiag}
+		\umlactor[x=0]{user}
+		\umlobject[class=Globe,x=4]{globe}
+		\umlmulti[class=Plant,x=8]{plants}
+		\begin{umlfragment}[type=loop,inner xsep=5]{}
+			\begin{umlcall}[op=newDay(),dt=8]{user}{globe}
+				\begin{umlcall}[op=radiate(),return=\,]{globe}{plants}
+				\end{umlcall}
+				\begin{umlcallself}[op=update]{globe}
+				\end{umlcallself}
+				\begin{umlcall}[type=return,op=done]{globe}{user}
+				\end{umlcall}
+			\end{umlcall}
+		\end{umlfragment}
+	\end{umlseqdiag}
+	\NodeAt{user}\NodeAt{globe}\NodeAt{plants}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,8 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+NODE init: -114.0, 0.0
+NODE s1: 0.0, 7.0
+NODE s2: 142.0, 8.0
+NODE fin: 228.0, -114.0
+[1
+] (state.aux)

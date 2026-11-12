@@ -1,0 +1,18 @@
+% Notes, including the UMLD pointed notes and local colours, and notes attached to relations.
+\documentclass{article}
+\input{regression-test.tex}
+\usepackage{tikz-umld}
+\input{umld-test.tex}
+\begin{document}
+\START
+\hfuzz=\maxdimen
+\begin{tikzpicture}
+	\umlemptyclass[x=0,y=0]{A}
+	\umlemptyclass[x=6,y=0]{B}
+	\umlassoc[name=rel]{A}{B}
+	\umlnote[x=0,y=-3,width=5em]{A}{A note.}
+	\umlnote[x=6,y=-3,px=1,py=-0.5,width=8em,draw=green!50!black,fill=green!10]{B}{A pointed note.}
+	\umlnote[x=3,y=2]{rel-1}{A note on a relation.}
+	\NodeAt{A}\NodeAt{B}\NodeAt{rel-1}
+\end{tikzpicture}
+\end{document}

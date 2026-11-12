@@ -1,0 +1,26 @@
+% Component diagrams: components, interfaces, assembly connectors (all label positions) and delegate connectors.
+\documentclass{article}
+\input{regression-test.tex}
+\usepackage{tikz-umld}
+\input{umld-test.tex}
+\begin{document}
+\START
+\hfuzz=\maxdimen
+\begin{tikzpicture}
+	\begin{umlcomponent}[x=0,y=0]{Outer}
+		\umlbasiccomponent[x=0,y=0]{Inner}
+	\end{umlcomponent}
+	\umlbasiccomponent[x=8,y=0]{Server}
+	\umlbasiccomponent[x=0,y=-4]{ClientB}
+	\umlbasiccomponent[x=8,y=-4]{ServerB}
+	\umlbasiccomponent[x=0,y=-8]{ClientC}
+	\umlbasiccomponent[x=8,y=-8]{ServerC}
+	\umlbasiccomponent[x=0,y=-12]{ClientD}
+	\umlbasiccomponent[x=8,y=-12]{ServerD}
+	\umlassemblyconnector[interface=Above,labelpos=above]{Inner}{Server}
+	\umlassemblyconnector[interface=Below,labelpos=below]{ClientB}{ServerB}
+	\umlassemblyconnector[interface=Left,labelpos=left]{ClientC}{ServerC}
+	\umlassemblyconnector[interface=Right,labelpos=right]{ClientD}{ServerD}
+	\NodeAt{Inner}\NodeAt{Server}\NodeAt{ClientB}\NodeAt{ServerB}\NodeAt{ClientC}\NodeAt{ServerC}\NodeAt{ClientD}\NodeAt{ServerD}
+\end{tikzpicture}
+\end{document}

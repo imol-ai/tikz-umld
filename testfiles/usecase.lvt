@@ -1,0 +1,20 @@
+% Use case diagrams: system boundaries, actors, use cases, include and extend.
+\documentclass{article}
+\input{regression-test.tex}
+\usepackage{tikz-umld}
+\input{umld-test.tex}
+\begin{document}
+\START
+\hfuzz=\maxdimen
+\begin{tikzpicture}
+	\begin{umlsystem}[x=5,fill=green!20]{System}
+		\umlusecase[name=u1]{Log in}
+		\umlusecase[name=u2,x=3,y=-3]{Reset password}
+	\end{umlsystem}
+	\umlactor[y=-1.5]{user}
+	\umlassoc{user}{u1}
+	\umlextend[name=e1]{u2}{u1}
+	\umlinclude[name=i1]{u1}{u2}
+	\NodeAt{user}\NodeAt{u1}\NodeAt{u2}
+\end{tikzpicture}
+\end{document}

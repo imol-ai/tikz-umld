@@ -1,0 +1,21 @@
+% GitHub issue #1: the `name` option of \umlclass was ignored, so a class
+% whose title contains underscores or a namespace could not be referenced.
+\documentclass{article}
+\input{regression-test.tex}
+\usepackage{tikz-umld}
+\input{umld-test.tex}
+\begin{document}
+\START
+\hfuzz=\maxdimen
+\begin{tikzpicture}
+	\umlsimpleclass{Service}
+	\umlclass[x=5,y=-3,name=Tb]{Tbl\_Currency\_Type}{id : int}{}
+	\umlclass[x=10,y=-3,name=ns]{namespace::class\_name}{}{}
+	\umluniassoc[geometry=|-]{Tb}{Service}
+	\umlassoc{ns}{Tb}
+	% Without `name`, the title is still the node name.
+	\umlclass[y=-6]{Plain}{}{}
+	\umlassoc{Plain}{Service}
+	\NodeAt{Service}\NodeAt{Tb}\NodeAt{ns}\NodeAt{Plain}
+\end{tikzpicture}
+\end{document}

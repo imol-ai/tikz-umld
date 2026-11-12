@@ -1,0 +1,17 @@
+% Object diagrams, a UMLD addition.
+\documentclass{article}
+\input{regression-test.tex}
+\usepackage{tikz-umld}
+\input{umld-test.tex}
+\begin{document}
+\START
+\hfuzz=\maxdimen
+\begin{tikzpicture}
+	\begin{umlobjdiag}
+		\umlobject[class=Customer,x=0]{alice}
+		\umlobject[class=Order,x=6]{order}
+		\umlassoc[mult1=1,mult2=*,name=o1]{alice}{order}
+		\NodeAt{alice}\NodeAt{order}
+	\end{umlobjdiag}
+\end{tikzpicture}
+\end{document}

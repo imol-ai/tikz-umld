@@ -1,0 +1,31 @@
+% Class-like elements, including the UMLD additions: abstract classes, objects, two-compartment enumerations, constraints and operation modifiers.
+\documentclass{article}
+\input{regression-test.tex}
+\usepackage{tikz-umld}
+\input{umld-test.tex}
+\begin{document}
+\START
+\hfuzz=\maxdimen
+\begin{tikzpicture}
+	\umlclass[x=0,y=0]{Plain}{attr : int}{op()}
+	\umlabstract[x=5,y=0]{Shape}{}{\umlpvirt{area(): real} \\ \umlquery{isEmpty(): boolean}}
+	\umlinterface[x=10,y=0]{Drawable}{}{draw()}
+	\umlenum[x=0,y=-4]{Colour}{red \\ green \\ blue}
+	\umlobj[x=5,y=-4,name=alice]{alice:Customer}{name = "Alice"}{}
+	\umlsimpleclass[x=10,y=-4]{Simple}
+	\umlsimpleinterface[x=0,y=-8]{SimpleI}
+	\umlsimpleobj[x=5,y=-8]{SimpleO}
+	\umlemptyclass[x=10,y=-8]{Empty}
+	\umlclass[x=0,y=-12]{Members}{
+		\umlcon{radius: real}{readOnly} \\
+		\umlstatic{count: int}
+	}{
+		\umlvirt{v(): int} \\
+		\umlpvirt{pv(): int} \\
+		\umloverrd{o(): int} \\
+		\umlquery{q(): int}
+	}
+	\NodeAt{Plain}\NodeAt{Shape}\NodeAt{Drawable}\NodeAt{Colour}\NodeAt{alice}
+	\NodeAt{Simple}\NodeAt{SimpleI}\NodeAt{SimpleO}\NodeAt{Empty}\NodeAt{Members}
+\end{tikzpicture}
+\end{document}

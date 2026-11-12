@@ -3,7 +3,6 @@
 % Some macros for UML Diagrams.
 % Repository: https://github.com/imol-ai/tikz-umld
 % Maintainer: David Imolai
-% Version: 1.0.0 (2026-10-07)
 % Derived from TikZ-UML 1.0 by Nicolas Kielbasiewicz.
 % This work may be distributed and/or modified under the terms of the
 % GNU Affero General Public License, version 3 or (at your option) any later
@@ -11,7 +10,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \NeedsTeXFormat{LaTeX2e}[1995/12/01]
-\ProvidesPackage{tikz-umld}[2026/10/07 v1.0.0 TikZ UML diagrams]
+% The date and version are stamped by `l3build tag` when a release is built.
+\ProvidesPackage{tikz-umld}[0000/00/00 develop TikZ UML diagrams]
 
 \RequirePackage{ifthen,tikz,xstring,calc,pgfopts,etoolbox}
 \usetikzlibrary{backgrounds,arrows,arrows.meta,shapes,fit,shadows,decorations.markings}
@@ -427,7 +427,7 @@
 
 	\pgfkeys{/tikzuml/class/.cd, x/.get=\tikzumlClassX, y/.get=\tikzumlClassY, width/.get=\tikzumlClassMinimumWidth,
 		type/.get=\tikzumlClassTypeTmp, tags/.get=\tikzumlClassTagsTmp, template/.get=\tikzumlClassTemplateFillColorParam,
-		name/.get=\tikzumlClassName,
+		name/.get=\tikzumlClassNameOpt,
 		draw/.get=\tikzumlClassDrawColor, fill/.get=\tikzumlClassFillColor,
 		text/.get=\tikzumlClassTextColor, fill template/.get=\tikzumlClassTemplateFillColor
 	}
@@ -458,8 +458,8 @@
 	\def\_{_}\edef\x{\endgroup
 		\def\noexpand\tikzumlClassNodeName{\tikzumlClassName}}\x
 
-	\ifthenelse{\equal{\tikzumlClassName}{tikzumlEmpty}}{}{
-		\def\tikzumlClassNodeName{\tikzumlClassName}
+	\ifthenelse{\equal{\tikzumlClassNameOpt}{tikzumlEmpty}}{}{
+		\def\tikzumlClassNodeName{\tikzumlClassNameOpt}
 	}
 
 	\StrSubstitute{\tikzumlClassNodeName}{:}{@COLON@}[\tikzumlClassNodeName]

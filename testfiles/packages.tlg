@@ -1,0 +1,9 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+NODE Inner: 0.0, 0.0
+NODE Deep: 114.0, 0.0
+NODE A: 0.0, -142.0
+NODE B: 171.0, -142.0
+NODE nary: 85.0, -142.0
+[1
+] (packages.aux)

@@ -1,0 +1,65 @@
+# Releasing: add a "## X.Y.Z — YYYY-MM-DD" entry to CHANGELOG.md, commit, then
+# tag and push the branch together with the signed tag:
+#
+#   git tag -s vX.Y.Z -m "TikZ-UMLD X.Y.Z" && git push origin master vX.Y.Z
+#
+# This workflow first requires the test suite to pass, then stamps the version
+# (from the tag) and date (from the CHANGELOG heading) into the package, builds
+# the CTAN archive, uploads it to CTAN, and publishes a GitHub release with the
+# archive and the manual attached.  The CHANGELOG entry for the version is both
+# the CTAN announcement and the GitHub release notes.  The repository itself
+# keeps the placeholder version "develop"; only the released archive carries
+# the real one.
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    uses: ./.github/workflows/test.yml
+
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    container: texlive/texlive:latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Version and date from the tag and CHANGELOG.md
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          date=$(sed -n "s/^## $version — \([0-9-]*\)\$/\1/p" CHANGELOG.md)
+          case "$date" in
+            [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]) ;;
+            *) echo "CHANGELOG.md needs a '## $version — YYYY-MM-DD' heading" >&2; exit 1 ;;
+          esac
+          awk -v v="$version" '/^## /{ p = (index($0, "## " v " ") == 1); next } p' CHANGELOG.md > notes.md
+          test -s notes.md || { echo "Empty CHANGELOG.md entry for $version" >&2; exit 1; }
+          echo "VERSION=$version" >> "$GITHUB_ENV"
+          echo "DATE=$date" >> "$GITHUB_ENV"
+          cat notes.md
+
+      - name: Stamp the version and date
+        run: l3build tag --date="$DATE" "$VERSION"
+
+      # Runs the tests on every engine and typesets the manual first.
+      - name: Build the CTAN archive
+        run: l3build ctan
+
+      - name: Upload to CTAN
+        env:
+          L3BUILD_CTAN_UPLOAD: "yes"
+        run: l3build upload --email "${{ secrets.CTAN_EMAIL }}" --file notes.md "$VERSION"
+
+      - name: GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          body_path: notes.md
+          files: |
+            tikz-umld-ctan.zip
+            doc/tikz-umld-userguide.pdf

@@ -2,7 +2,12 @@
 
 \usepackage{tikz-umld-doc-style}
 
-\date{Version 1.0.0 -- 2026-10-07}
+% The version and date come from the \ProvidesPackage line of tikz-umld.sty.
+\makeatletter
+\def\umld@parse#1 #2 #3\relax{\def\umlddate{#1}\def\umldversion{#2}}
+\expandafter\expandafter\expandafter\umld@parse\csname ver@tikz-umld.sty\endcsname\relax
+\makeatother
+\date{\umldversion\ (\umlddate)}
 \title{The \tuml package\\\large User guide for the UMLD fork}
 \author{Nicolas {\sc Kielbasiewicz} (original TikZ-UML manual)\\
 David {\sc Imolai} (TikZ-UMLD additions)}
@@ -54,9 +59,8 @@ searched by TeX. Load the package with:
 \usepackage{tikz-umld}
 \end{lstlisting}
 
-The development repository is available at
-\url{https://github.com/imol-ai/tikz-umld}. A future CTAN release is planned;
-until then, the repository version is authoritative.
+The package is available from CTAN, and the development repository at
+\url{https://github.com/imol-ai/tikz-umld}.
 
 \section{License and maintenance}
 

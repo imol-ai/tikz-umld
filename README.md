@@ -7,12 +7,11 @@ diagrams, proper two-compartment enumerations, UML constraints and operation
 modifiers, pointed notes, more control over relationship stereotypes, and a
 collection of rendering and compatibility fixes.
 
-Version 1.0.0 is the first prepared TikZ-UMLD release.
-
 ## Installation
 
-Until a CTAN release is available, put `tikz-umld.sty` next to your document or
-in a directory searched by TeX. Then load it with:
+TikZ-UMLD is on [CTAN](https://ctan.org/pkg/tikz-umld). Install it with your TeX
+distribution if it is available there, or put `tikz-umld.sty` next to your
+document or in a directory searched by TeX. Then load it with:
 
 ```tex
 \usepackage{tikz-umld}
@@ -58,23 +57,23 @@ TikZ-UMLD requires `tikz`, `ifthen`, `xstring`, `calc`, `pgfopts`, and
   `\umlVHVunicompos`.
 
 The English manual documents the complete inherited interface and the UMLD
-extensions. `examples/full.tex` is a worked example (a radiation simulation)
+extensions. `doc/examples/full.tex` is a worked example (a radiation simulation)
 with use-case, sequence, state-machine and class diagrams.
 
-## Building the documentation and examples
+## Building, testing and releasing
 
-From the repository root:
+The build uses [l3build](https://ctan.org/pkg/l3build). From the repository
+root:
 
 ```sh
-make check
+l3build doc      # typeset the manual and the examples into doc/
+l3build check    # run the regression tests (add -e pdftex,xetex,luatex for all engines)
+l3build ctan     # run the tests on all engines and build tikz-umld-ctan.zip
 ```
 
-The build uses `latexmk` and writes generated files to `build/`. Individual
-targets are `make manual` and `make examples`.
-
-`make release-archive` rebuilds everything, refreshes the checked-in manual and
-example PDFs, and creates `build/tikz-umld.tar.gz` with the required top-level
-directory. `make ctan-archive` is an alias for this final release archive.
+The regression tests are in `testfiles/`. After an intended change to the
+output, review the difference and record the new expected log with
+`l3build save <test>`.
 
 ## History and authorship
 

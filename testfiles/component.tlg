@@ -1,0 +1,12 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+NODE Inner: 0.0, 7.0
+NODE Server: 228.0, 7.0
+NODE ClientB: 0.0, -107.0
+NODE ServerB: 228.0, -107.0
+NODE ClientC: 0.0, -221.0
+NODE ServerC: 228.0, -221.0
+NODE ClientD: 0.0, -335.0
+NODE ServerD: 228.0, -335.0
+[1
+] (component.aux)

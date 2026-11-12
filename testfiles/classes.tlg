@@ -1,0 +1,14 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+NODE Plain: 0.0, 0.0
+NODE Shape: 142.0, 0.0
+NODE Drawable: 285.0, 0.0
+NODE Colour: 0.0, -114.0
+NODE alice: 142.0, -114.0
+NODE Simple: 285.0, -114.0
+NODE SimpleI: 0.0, -228.0
+NODE SimpleO: 142.0, -228.0
+NODE Empty: 285.0, -228.0
+NODE Members: 0.0, -341.0
+[1
+] (classes.aux)

@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_call:
+
+jobs:
+  # Fails if re-indenting would change any file; fix it with
+  # tools/latexindent.sh format (the pre-commit hook does this).
+  #
+  # latexindent's output differs between versions, so this uses the same
+  # version as tools/latexindent.sh requires (the one in TeX Live 2025), pinned
+  # by commit (tag V3.24.7), instead of whatever the TeX Live image ships.
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install latexindent 3.24.7
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libyaml-tiny-perl libfile-homedir-perl libunicode-linebreak-perl liblog-log4perl-perl liblog-dispatch-perl
+          git init -q "$RUNNER_TEMP/latexindent"
+          git -C "$RUNNER_TEMP/latexindent" fetch -q --depth 1 https://github.com/cmhughes/latexindent.pl 2a12bd416b3dc9eda3d107f5bdd2db045f2f4435
+          git -C "$RUNNER_TEMP/latexindent" checkout -q FETCH_HEAD
+      - run: tools/latexindent.sh check
+        env:
+          LATEXINDENT: perl ${{ runner.temp }}/latexindent/latexindent.pl
+
+  l3build:
+    needs: format
+    runs-on: ubuntu-latest
+    container: texlive/texlive:latest
+    steps:
+      - uses: actions/checkout@v4
+      # The regression tests on pdfTeX, XeTeX and LuaTeX, then the manual and
+      # the examples.
+      - run: l3build check -e pdftex,xetex,luatex
+      - run: l3build doc

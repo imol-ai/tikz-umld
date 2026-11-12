@@ -1,0 +1,17 @@
+% Helpers shared by the TikZ-UMLD regression tests.
+%
+% \NodeAt{name} logs where the centre of a node is, rounded to whole points
+% so that the tests do not depend on the font metrics of each TeX engine.
+% A node that does not exist is logged as MISSING, so a lost node is a test
+% failure, not an error somewhere deep inside TikZ.  Use it inside the
+% tikzpicture.
+\makeatletter
+\let\@font@info\@gobble % font-loading chatter differs between engines
+\newcommand\NodeAt[1]{%
+	\pgfutil@ifundefined{pgf@sh@ns@#1}
+	{\typeout{NODE #1: MISSING}}
+	{\pgfpointanchor{#1}{center}%
+		\pgfmathsetmacro\umld@nodex{round(\pgf@x/1pt)}%
+		\pgfmathsetmacro\umld@nodey{round(\pgf@y/1pt)}%
+		\typeout{NODE #1: \umld@nodex, \umld@nodey}}}
+\makeatother

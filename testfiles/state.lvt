@@ -1,0 +1,22 @@
+% State machines: composite and basic states, pseudo-states, and transitions of every routing flavour, including recursive ones.
+\documentclass{article}
+\input{regression-test.tex}
+\usepackage{tikz-umld}
+\input{umld-test.tex}
+\begin{document}
+\START
+\hfuzz=\maxdimen
+\begin{tikzpicture}
+	\begin{umlstate}[name=top]{Machine}
+		\umlstateinitial[x=-4,y=0,name=init]
+		\umlbasicstate[x=0,y=0,name=s1]{Idle}
+		\umlbasicstate[x=5,y=0,name=s2]{Busy}
+		\umlstatefinal[x=8,y=-4,name=fin]
+		\umltrans[arg=start,pos=0.5]{init}{s1}
+		\umltrans[arg=go,pos=0.5]{s1}{s2}
+		\umlHVtrans[arg=done]{s2}{fin}
+		\umltrans[arg=retry,recursive=45|135|1cm,recursive direction=top to top]{s2}{s2}
+	\end{umlstate}
+	\NodeAt{init}\NodeAt{s1}\NodeAt{s2}\NodeAt{fin}
+\end{tikzpicture}
+\end{document}

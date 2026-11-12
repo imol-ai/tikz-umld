@@ -1,0 +1,31 @@
+% Every relation kind, in all routing flavours, and the UMLD relationship options (compos spelling, stereotype position, anchor and background).
+\documentclass{article}
+\input{regression-test.tex}
+\usepackage{tikz-umld}
+\input{umld-test.tex}
+\begin{document}
+\START
+\hfuzz=\maxdimen
+\begin{tikzpicture}
+	\umlemptyclass[x=0,y=0]{A}
+	\umlemptyclass[x=6,y=0]{B}
+	\umlemptyclass[x=6,y=-4]{C}
+	\umlemptyclass[x=0,y=-4]{D}
+	\umlassoc[name=r1]{A}{B}
+	\umlbiassoc[name=r2]{A}{D}
+	\umluniassoc[name=r3,geometry=|-]{A}{C}
+	\umlaggreg[name=r4]{D}{C}
+	\umluniaggreg[name=r5,geometry=-|]{D}{B}
+	\umlcompos[name=r6]{C}{B}
+	\umlunicompos[name=r7,geometry=|-]{C}{A}
+	\umlinherit[name=r8]{B}{A}
+	\umlimpl[name=r9]{C}{D}
+	\umlimport[name=r10,geometry=|-]{D}{B}
+	\umldep[name=r11,stereo=uses,st:pos=0.3,st:anchor=south,st:fill=white]{A}{C}
+	\umlHVcompos[name=r12]{A}{C}
+	\umlVHVunicompos[name=r13]{B}{D}
+	\NodeAt{A}\NodeAt{B}\NodeAt{C}\NodeAt{D}
+	\NodeAt{r1-1}\NodeAt{r3-1}\NodeAt{r3-2}\NodeAt{r7-1}\NodeAt{r10-1}\NodeAt{r10-2}
+	\NodeAt{r12-1}\NodeAt{r13-1}
+\end{tikzpicture}
+\end{document}

@@ -6,10 +6,10 @@
 # This workflow first requires the test suite to pass, then stamps the version
 # (from the tag) and date (from the CHANGELOG heading) into the package, builds
 # the CTAN archive, uploads it to CTAN, and publishes a GitHub release with the
-# archive and the manual attached.  The CHANGELOG entry for the version is both
-# the CTAN announcement and the GitHub release notes.  The repository itself
-# keeps the placeholder version "develop"; only the released archive carries
-# the real one.
+# archive, the stamped tikz-umld.sty and the manual attached.  The CHANGELOG
+# entry for the version is both the CTAN announcement and the GitHub release
+# notes.  The repository itself keeps the placeholder version "develop"; only
+# the released files carry the real one.
 name: Release
 
 on:
@@ -62,4 +62,5 @@ jobs:
           body_path: notes.md
           files: |
             tikz-umld-ctan.zip
+            tikz-umld.sty
             doc/tikz-umld-userguide.pdf
